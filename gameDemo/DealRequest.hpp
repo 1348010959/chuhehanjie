@@ -51,7 +51,7 @@ void Sign_in(const UserInfo& user, const int& client_fd)
     }
 }
 
-void Login(const UserInfo& user, const int& client_fd)
+void Login(const UserInfo& user, const int& client_fd, std::list<OnlineUser>& online)
 {
     char userid[32] = {0};
     char password[32] = {0}; 
@@ -60,6 +60,10 @@ void Login(const UserInfo& user, const int& client_fd)
 
     pipe(input);
     pipe(output);
+
+    OnlineUser tmp;
+    tmp.user_id = user.user_id;
+    tmp.sock_fd = client_fd;
 
     pid_t id = fork();
     if(id < 0){
@@ -98,6 +102,7 @@ void Login(const UserInfo& user, const int& client_fd)
             printf("It's is success\n");
             msg[0] = LOGINOK;
             strcpy(msg+1, buf+2);
+            online.push_back(tmp);
         }else{
             printf("It's is failed\n");
             msg[0] = LOGINFAIL;

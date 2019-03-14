@@ -14,6 +14,7 @@
 #include <cstdlib>
 #include <fcntl.h>
 #include <pthread.h>
+#include <list>
 #include "User.pb.h"
 
 enum RequestType{
@@ -30,5 +31,10 @@ struct UserInfo{
     std::string user_id;
     std::string user_pwd;
     std::string user_name;
+};
+
+struct OnlineUser{
+    std::string user_id;
+    unsigned int sock_fd;
 };
 

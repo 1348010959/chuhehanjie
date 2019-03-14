@@ -30,7 +30,7 @@ static int startup(const int port)
     return sock;
 }
 
-void ProcessConnect(const int listen_sock, int epoll_fd)
+void ProcessConnect(const int& listen_sock, int& epoll_fd)
 {
     struct sockaddr_in client_addr;
     socklen_t len = sizeof(client_addr);
@@ -52,7 +52,7 @@ void ProcessConnect(const int listen_sock, int epoll_fd)
     }
 }
 
-void ProcessRequest(const int connect_fd, const int epoll_fd)
+void ProcessRequest(const int connect_fd, const int epoll_fd, std::list<OnlineUser>& online)
 {
     char buf[1024] = {0};
     char sendbuf[1024] = {0};
@@ -63,6 +63,12 @@ void ProcessRequest(const int connect_fd, const int epoll_fd)
     }else if(read_size == 0){
         close(connect_fd);
         epoll_ctl(epoll_fd, EPOLL_CTL_DEL, connect_fd, NULL);
+        std::list<OnlineUser>::iterator it = online.begin();
+        while((*it).sock_fd != connect_fd)
+        {
+           it++; 
+        }
+        online.erase(it);
         std::cout << "client quit" << std::endl;
         return;
     }
@@ -78,7 +84,7 @@ void ProcessRequest(const int connect_fd, const int epoll_fd)
         std::cout << "Login" << std::endl;
         //sendbuf[0] = LOGINOK;
         //write(connect_fd, sendbuf, 1);
-        Login(user, connect_fd);
+        Login(user, connect_fd, online);
         break;
     }
 }
@@ -86,6 +92,7 @@ void ProcessRequest(const int connect_fd, const int epoll_fd)
 int main(int argc, char* argv[])
 {
     GOOGLE_PROTOBUF_VERIFY_VERSION;
+    std::list<OnlineUser> online;
     if(argc != 2)
     {
         std::cerr << "Usage ./gameServer [port]" << std::endl;
@@ -131,7 +138,7 @@ int main(int argc, char* argv[])
             {
                 ProcessConnect(listen_sock, epoll_fd); 
             }else{//处理connect
-                ProcessRequest(events[i].data.fd, epoll_fd);
+                ProcessRequest(events[i].data.fd, epoll_fd, online);
             }
         }
     }
