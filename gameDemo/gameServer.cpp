@@ -1,6 +1,7 @@
 #include "gameServer.h"
 #include "getValue.hpp"
 #include "DealRequest.hpp"
+#include "threadpool.h"
 
 static int startup(const int port)
 {
@@ -52,10 +53,9 @@ void ProcessConnect(const int& listen_sock, int& epoll_fd)
     }
 }
 
-void ProcessRequest(const int connect_fd, const int epoll_fd, std::list<OnlineUser>& online)
+void ProcessRequest(const unsigned int connect_fd, const unsigned int epoll_fd, std::list<OnlineUser>& online, std::queue<OnlineUser>& MatchQueue, threadpool_t* pool)
 {
     char buf[1024] = {0};
-    char sendbuf[1024] = {0};
     ssize_t read_size = read(connect_fd, buf,sizeof(buf)-1);
     if(read_size < 0){
         std::cerr << "epoll_ctl" << std::endl;
@@ -69,6 +69,7 @@ void ProcessRequest(const int connect_fd, const int epoll_fd, std::list<OnlineUs
            it++; 
         }
         online.erase(it);
+        std::cout << "online user size:" << online.size() << std::endl;
         std::cout << "client quit" << std::endl;
         return;
     }
@@ -82,22 +83,29 @@ void ProcessRequest(const int connect_fd, const int epoll_fd, std::list<OnlineUs
         break;
     case LOGIN:
         std::cout << "Login" << std::endl;
-        //sendbuf[0] = LOGINOK;
-        //write(connect_fd, sendbuf, 1);
         Login(user, connect_fd, online);
         break;
+    case START:
+        std::cout << "START" << std::endl;
+        Match(online, MatchQueue, connect_fd);
+        break;
+    default:
+        std::cout << "Undefined" << std::endl;
     }
 }
 
 int main(int argc, char* argv[])
 {
     GOOGLE_PROTOBUF_VERIFY_VERSION;
-    std::list<OnlineUser> online;
     if(argc != 2)
     {
         std::cerr << "Usage ./gameServer [port]" << std::endl;
         return 1;
     }
+    std::list<OnlineUser> online;
+    std::queue<OnlineUser> MatchQueue;
+    threadpool_t pool;
+    threadpool_init(&pool, 10);
 
     int listen_sock = startup(atoi(argv[1]));
 
@@ -138,10 +146,11 @@ int main(int argc, char* argv[])
             {
                 ProcessConnect(listen_sock, epoll_fd); 
             }else{//处理connect
-                ProcessRequest(events[i].data.fd, epoll_fd, online);
+                ProcessRequest(events[i].data.fd, epoll_fd, online, MatchQueue, &pool);
             }
         }
     }
+    threadpool_destroy(&pool);
     google::protobuf::ShutdownProtobufLibrary();
     return 0;    
 }

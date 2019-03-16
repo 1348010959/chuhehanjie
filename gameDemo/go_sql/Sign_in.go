@@ -29,6 +29,13 @@ func main() {
 
 		_, err = stmt.Exec(id, pwd, name)
 		checkErr(err)
+
+        stmt2, err := db.Prepare("INSERT INTO FORMATION SET userid=?")
+        checkErr(err)
+
+        _, err = stmt2.Exec(id)
+        checkErr(err)
+
 		fmt.Print("OK")
 	} else {
 		fmt.Print("FAIL")

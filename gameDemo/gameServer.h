@@ -15,6 +15,7 @@
 #include <fcntl.h>
 #include <pthread.h>
 #include <list>
+#include <queue>
 #include "User.pb.h"
 
 enum RequestType{
@@ -24,7 +25,10 @@ enum RequestType{
     OK = 200,       //注册成功
     FAIL = 201,     //注册失败
     LOGINOK = 202,  //登陆成功
-    LOGINFAIL = 203 //登陆失败
+    LOGINFAIL = 203, //登陆失败
+
+    START = 16,    //开始游戏
+    EMBATTLE       //布阵
 };
 
 struct UserInfo{
@@ -35,6 +39,7 @@ struct UserInfo{
 
 struct OnlineUser{
     std::string user_id;
-    unsigned int sock_fd;
+    unsigned int sock_fd;   //在线用户套接字
+    bool Isplaying;     //玩家是否正在游戏
 };
 

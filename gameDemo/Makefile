@@ -3,7 +3,7 @@ cc=g++
 .PHONY:bin
 bin:gameServer 
 #client
-src=gameServer.cpp User.pb.cc
+src=gameServer.cpp thread_pool.cpp condition.cpp User.pb.cc
 LDFLAGS=-std=c++11 -lprotobuf -lpthread
 
 gameServer:$(src)

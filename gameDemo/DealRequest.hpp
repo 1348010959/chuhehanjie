@@ -37,7 +37,10 @@ void Sign_in(const UserInfo& user, const int& client_fd)
 
         char buf[64] = {0};
         char msg[8] = {0};
-        int size = read(output[0], buf, sizeof(buf)-1);
+        if(read(output[0], buf, sizeof(buf)-1) < 0)
+        {
+            std::cerr << "read" << std::endl;
+        }
         if(strcasecmp(buf, "OK") == 0)
         {
             std::cout << "SIGN_IN succerr" << std::endl;
@@ -51,7 +54,7 @@ void Sign_in(const UserInfo& user, const int& client_fd)
     }
 }
 
-void Login(const UserInfo& user, const int& client_fd, std::list<OnlineUser>& online)
+void Login(const UserInfo& user, const int& client_fd, std::list<OnlineUser> online)
 {
     char userid[32] = {0};
     char password[32] = {0}; 
@@ -64,6 +67,7 @@ void Login(const UserInfo& user, const int& client_fd, std::list<OnlineUser>& on
     OnlineUser tmp;
     tmp.user_id = user.user_id;
     tmp.sock_fd = client_fd;
+    tmp.Isplaying = false;
 
     pid_t id = fork();
     if(id < 0){
@@ -90,12 +94,12 @@ void Login(const UserInfo& user, const int& client_fd, std::list<OnlineUser>& on
         close(input[0]);
         close(output[1]);
 
-        char buf[64] = {0};
-        char msg[64] = {0};
+        char buf[128] = {0};
+        char msg[128] = {0};
         int size = read(output[0], buf, sizeof(buf)-1);
         if(size < 0)
         {
-           std::cerr << "read" << std::endl; 
+            std::cerr << "read" << std::endl; 
         }
         if((strncasecmp(buf, "OK", 2) == 0))
         {
@@ -103,6 +107,7 @@ void Login(const UserInfo& user, const int& client_fd, std::list<OnlineUser>& on
             msg[0] = LOGINOK;
             strcpy(msg+1, buf+2);
             online.push_back(tmp);
+            std::cout << online.size() << std::endl;
         }else{
             printf("It's is failed\n");
             msg[0] = LOGINFAIL;
@@ -110,6 +115,26 @@ void Login(const UserInfo& user, const int& client_fd, std::list<OnlineUser>& on
         printf("sql:%s\n", buf);
         printf("msg:%s\n", msg+1);
         write(client_fd, msg, sizeof(msg)-1);
+    }
+}
+
+
+static void StartGame()
+{
+}
+
+void Match(std::list<OnlineUser>& online, std::queue<OnlineUser>& MatchQueue, const unsigned int& client_fd)
+{
+    std::list<OnlineUser>::iterator it = online.begin();
+    for( ; it != online.end(); ++it )
+    {
+        if( (*it).sock_fd == client_fd ){
+            MatchQueue.push(*it);
+        }
+    }
+    unsigned int size = MatchQueue.size();
+    if(size % 2 == 0){
+        StartGame();
     }
 }
 
