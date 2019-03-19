@@ -38,7 +38,7 @@ namespace protobuf_User_2eproto {
 struct TableStruct {
   static const ::google::protobuf::internal::ParseTableField entries[];
   static const ::google::protobuf::internal::AuxillaryParseTableField aux[];
-  static const ::google::protobuf::internal::ParseTable schema[1];
+  static const ::google::protobuf::internal::ParseTable schema[2];
   static const ::google::protobuf::internal::FieldMetadata field_metadata[];
   static const ::google::protobuf::internal::SerializationTable serialization_table[];
   static const ::google::protobuf::uint32 offsets[];
@@ -46,12 +46,16 @@ struct TableStruct {
 void AddDescriptors();
 }  // namespace protobuf_User_2eproto
 namespace proto_User {
+class EMbattle;
+class EMbattleDefaultTypeInternal;
+extern EMbattleDefaultTypeInternal _EMbattle_default_instance_;
 class User;
 class UserDefaultTypeInternal;
 extern UserDefaultTypeInternal _User_default_instance_;
 }  // namespace proto_User
 namespace google {
 namespace protobuf {
+template<> ::proto_User::EMbattle* Arena::CreateMaybeMessage<::proto_User::EMbattle>(Arena*);
 template<> ::proto_User::User* Arena::CreateMaybeMessage<::proto_User::User>(Arena*);
 }  // namespace protobuf
 }  // namespace google
@@ -194,6 +198,140 @@ class User : public ::google::protobuf::Message /* @@protoc_insertion_point(clas
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::internal::ArenaStringPtr id_;
   ::google::protobuf::internal::ArenaStringPtr password_;
+  ::google::protobuf::internal::ArenaStringPtr name_;
+  mutable ::google::protobuf::internal::CachedSize _cached_size_;
+  friend struct ::protobuf_User_2eproto::TableStruct;
+};
+// -------------------------------------------------------------------
+
+class EMbattle : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:proto_User.EMbattle) */ {
+ public:
+  EMbattle();
+  virtual ~EMbattle();
+
+  EMbattle(const EMbattle& from);
+
+  inline EMbattle& operator=(const EMbattle& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  EMbattle(EMbattle&& from) noexcept
+    : EMbattle() {
+    *this = ::std::move(from);
+  }
+
+  inline EMbattle& operator=(EMbattle&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const EMbattle& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const EMbattle* internal_default_instance() {
+    return reinterpret_cast<const EMbattle*>(
+               &_EMbattle_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    1;
+
+  void Swap(EMbattle* other);
+  friend void swap(EMbattle& a, EMbattle& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline EMbattle* New() const final {
+    return CreateMaybeMessage<EMbattle>(NULL);
+  }
+
+  EMbattle* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<EMbattle>(arena);
+  }
+  void CopyFrom(const ::google::protobuf::Message& from) final;
+  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CopyFrom(const EMbattle& from);
+  void MergeFrom(const EMbattle& from);
+  void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) final;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const final;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(EMbattle* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // repeated string embattle = 2;
+  int embattle_size() const;
+  void clear_embattle();
+  static const int kEmbattleFieldNumber = 2;
+  const ::std::string& embattle(int index) const;
+  ::std::string* mutable_embattle(int index);
+  void set_embattle(int index, const ::std::string& value);
+  #if LANG_CXX11
+  void set_embattle(int index, ::std::string&& value);
+  #endif
+  void set_embattle(int index, const char* value);
+  void set_embattle(int index, const char* value, size_t size);
+  ::std::string* add_embattle();
+  void add_embattle(const ::std::string& value);
+  #if LANG_CXX11
+  void add_embattle(::std::string&& value);
+  #endif
+  void add_embattle(const char* value);
+  void add_embattle(const char* value, size_t size);
+  const ::google::protobuf::RepeatedPtrField< ::std::string>& embattle() const;
+  ::google::protobuf::RepeatedPtrField< ::std::string>* mutable_embattle();
+
+  // string name = 1;
+  void clear_name();
+  static const int kNameFieldNumber = 1;
+  const ::std::string& name() const;
+  void set_name(const ::std::string& value);
+  #if LANG_CXX11
+  void set_name(::std::string&& value);
+  #endif
+  void set_name(const char* value);
+  void set_name(const char* value, size_t size);
+  ::std::string* mutable_name();
+  ::std::string* release_name();
+  void set_allocated_name(::std::string* name);
+
+  // @@protoc_insertion_point(class_scope:proto_User.EMbattle)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::RepeatedPtrField< ::std::string> embattle_;
   ::google::protobuf::internal::ArenaStringPtr name_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_User_2eproto::TableStruct;
@@ -368,9 +506,137 @@ inline void User::set_allocated_name(::std::string* name) {
   // @@protoc_insertion_point(field_set_allocated:proto_User.User.name)
 }
 
+// -------------------------------------------------------------------
+
+// EMbattle
+
+// string name = 1;
+inline void EMbattle::clear_name() {
+  name_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& EMbattle::name() const {
+  // @@protoc_insertion_point(field_get:proto_User.EMbattle.name)
+  return name_.GetNoArena();
+}
+inline void EMbattle::set_name(const ::std::string& value) {
+  
+  name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:proto_User.EMbattle.name)
+}
+#if LANG_CXX11
+inline void EMbattle::set_name(::std::string&& value) {
+  
+  name_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:proto_User.EMbattle.name)
+}
+#endif
+inline void EMbattle::set_name(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  
+  name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:proto_User.EMbattle.name)
+}
+inline void EMbattle::set_name(const char* value, size_t size) {
+  
+  name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:proto_User.EMbattle.name)
+}
+inline ::std::string* EMbattle::mutable_name() {
+  
+  // @@protoc_insertion_point(field_mutable:proto_User.EMbattle.name)
+  return name_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* EMbattle::release_name() {
+  // @@protoc_insertion_point(field_release:proto_User.EMbattle.name)
+  
+  return name_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void EMbattle::set_allocated_name(::std::string* name) {
+  if (name != NULL) {
+    
+  } else {
+    
+  }
+  name_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), name);
+  // @@protoc_insertion_point(field_set_allocated:proto_User.EMbattle.name)
+}
+
+// repeated string embattle = 2;
+inline int EMbattle::embattle_size() const {
+  return embattle_.size();
+}
+inline void EMbattle::clear_embattle() {
+  embattle_.Clear();
+}
+inline const ::std::string& EMbattle::embattle(int index) const {
+  // @@protoc_insertion_point(field_get:proto_User.EMbattle.embattle)
+  return embattle_.Get(index);
+}
+inline ::std::string* EMbattle::mutable_embattle(int index) {
+  // @@protoc_insertion_point(field_mutable:proto_User.EMbattle.embattle)
+  return embattle_.Mutable(index);
+}
+inline void EMbattle::set_embattle(int index, const ::std::string& value) {
+  // @@protoc_insertion_point(field_set:proto_User.EMbattle.embattle)
+  embattle_.Mutable(index)->assign(value);
+}
+#if LANG_CXX11
+inline void EMbattle::set_embattle(int index, ::std::string&& value) {
+  // @@protoc_insertion_point(field_set:proto_User.EMbattle.embattle)
+  embattle_.Mutable(index)->assign(std::move(value));
+}
+#endif
+inline void EMbattle::set_embattle(int index, const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  embattle_.Mutable(index)->assign(value);
+  // @@protoc_insertion_point(field_set_char:proto_User.EMbattle.embattle)
+}
+inline void EMbattle::set_embattle(int index, const char* value, size_t size) {
+  embattle_.Mutable(index)->assign(
+    reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_set_pointer:proto_User.EMbattle.embattle)
+}
+inline ::std::string* EMbattle::add_embattle() {
+  // @@protoc_insertion_point(field_add_mutable:proto_User.EMbattle.embattle)
+  return embattle_.Add();
+}
+inline void EMbattle::add_embattle(const ::std::string& value) {
+  embattle_.Add()->assign(value);
+  // @@protoc_insertion_point(field_add:proto_User.EMbattle.embattle)
+}
+#if LANG_CXX11
+inline void EMbattle::add_embattle(::std::string&& value) {
+  embattle_.Add(std::move(value));
+  // @@protoc_insertion_point(field_add:proto_User.EMbattle.embattle)
+}
+#endif
+inline void EMbattle::add_embattle(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  embattle_.Add()->assign(value);
+  // @@protoc_insertion_point(field_add_char:proto_User.EMbattle.embattle)
+}
+inline void EMbattle::add_embattle(const char* value, size_t size) {
+  embattle_.Add()->assign(reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_add_pointer:proto_User.EMbattle.embattle)
+}
+inline const ::google::protobuf::RepeatedPtrField< ::std::string>&
+EMbattle::embattle() const {
+  // @@protoc_insertion_point(field_list:proto_User.EMbattle.embattle)
+  return embattle_;
+}
+inline ::google::protobuf::RepeatedPtrField< ::std::string>*
+EMbattle::mutable_embattle() {
+  // @@protoc_insertion_point(field_mutable_list:proto_User.EMbattle.embattle)
+  return &embattle_;
+}
+
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
 
 // @@protoc_insertion_point(namespace_scope)
 

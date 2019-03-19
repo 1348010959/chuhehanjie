@@ -64,30 +64,46 @@ void ProcessRequest(const unsigned int connect_fd, const unsigned int epoll_fd, 
         close(connect_fd);
         epoll_ctl(epoll_fd, EPOLL_CTL_DEL, connect_fd, NULL);
         std::list<OnlineUser>::iterator it = online.begin();
-        while((*it).sock_fd != connect_fd)
+        bool flag = false;
+        while(it != online.end())
         {
-           it++; 
+            if((*it).sock_fd == connect_fd)
+            {
+                flag = true;
+                break;
+            }
+            it++; 
         }
-        online.erase(it);
+        if(flag)
+        {
+            online.erase(it);
+        }
         std::cout << "online user size:" << online.size() << std::endl;
         std::cout << "client quit" << std::endl;
         return;
     }
     std::string serialized = buf+1;
     UserInfo user;
-    getUser(serialized, user);
+    EMbattle em;
     switch(buf[0]){
     case SIGN_IN:
         std::cout << "SIGN_IN" << std::endl;
+        getUser(serialized, user);
         Sign_in(user, connect_fd);
         break;
     case LOGIN:
         std::cout << "Login" << std::endl;
+        getUser(serialized, user);
         Login(user, connect_fd, online);
         break;
     case START:
         std::cout << "START" << std::endl;
         Match(online, MatchQueue, connect_fd);
+        break;
+    case EMBATTLE:
+        std::cout << "EMBATTLE" << std::endl;
+        getEmbattle(serialized, em);
+        Embattle(em, connect_fd, online);
         break;
     default:
         std::cout << "Undefined" << std::endl;

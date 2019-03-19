@@ -43,7 +43,7 @@ void Sign_in(const UserInfo& user, const int& client_fd)
         }
         if(strcasecmp(buf, "OK") == 0)
         {
-            std::cout << "SIGN_IN succerr" << std::endl;
+            std::cout << "SIGN_IN success" << std::endl;
             msg[0] = OK;
         }else{
             std::cout << "SIGN_IN fail" << std::endl;
@@ -94,8 +94,11 @@ void Login(const UserInfo& user, const int& client_fd, std::list<OnlineUser> onl
         close(input[0]);
         close(output[1]);
 
-        char buf[128] = {0};
-        char msg[128] = {0};
+        char buf[256] = {0};
+        char msg[256] = {0};
+        EMbattle em;
+        proto_User::EMbattle Em;
+        std::string serial;
         int size = read(output[0], buf, sizeof(buf)-1);
         if(size < 0)
         {
@@ -105,7 +108,17 @@ void Login(const UserInfo& user, const int& client_fd, std::list<OnlineUser> onl
         {
             printf("It's is success\n");
             msg[0] = LOGINOK;
-            strcpy(msg+1, buf+2);
+            for(int i=0; i<10; ++i)
+            {
+                char temp[10];
+                memcpy(temp, (buf+2+i*10), 10);
+                em.embattle[i] = temp;
+                *Em.add_embattle() = em.embattle[i];
+            }
+            em.name = buf+102;
+            Em.set_name(em.name);
+            Em.SerializeToString(&serial);
+            strcpy(msg+1, serial.c_str());
             online.push_back(tmp);
             std::cout << online.size() << std::endl;
         }else{
@@ -118,6 +131,67 @@ void Login(const UserInfo& user, const int& client_fd, std::list<OnlineUser> onl
     }
 }
 
+void Embattle(EMbattle& em,const unsigned int& client_fd, std::list<OnlineUser> online)
+{
+    char Tag[128] = {0};
+    char Id[32] = {0};
+    int input[2];
+    int output[2];
+    char buf[8] = {0};
+    std::list<OnlineUser>::iterator it = online.begin();
+    while((*it).sock_fd != client_fd)
+    {  
+        it++;
+    }
+
+    std::string tag = em.embattle[0];
+    for(int i=1; i<9; ++i)
+    {
+        tag += em.embattle[i];
+    }
+
+    pipe(input);
+    pipe(output);
+
+    pid_t id = fork();
+    if(id < 0){
+        std::cerr << "fork" << std::endl;
+        return;
+    }
+    else if( id == 0  ){
+        close(input[1]);
+        close(output[0]);
+
+        dup2(input[0], 0);  //对子进程的标准输入输出进行重定向
+        dup2(output[1], 1);
+
+        sprintf(Id, "UERID=%s", it->user_id.c_str());
+        putenv(Id);
+        sprintf(Tag, "TAG=%s", tag.c_str());
+        putenv(Tag);
+
+        execl("./go_sql/Update", NULL);
+        exit(1);
+
+    }else{
+        close(input[0]);
+        close(output[1]);
+
+
+        char msg[8] = {0};
+        if(read(output[0], buf, sizeof(buf)-1) < 0)
+        {
+            std::cerr << "read" << std::endl;
+
+        }
+        if(strcasecmp(buf, "OK") == 0)
+        {
+            std::cout << "SIGN_IN succerr" << std::endl;
+            msg[0] = OK;
+
+        }else{}
+    }
+}
 
 static void StartGame()
 {

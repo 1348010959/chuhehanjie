@@ -8,3 +8,9 @@ message User
     string name = 3;
 }
 
+message EMbattle
+{
+    string name = 1;
+    repeated string embattle = 2;
+}
+

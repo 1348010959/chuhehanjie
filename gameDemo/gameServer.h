@@ -28,7 +28,7 @@ enum RequestType{
     LOGINFAIL = 203, //登陆失败
 
     START = 16,    //开始游戏
-    EMBATTLE       //布阵
+    EMBATTLE = 18      //布阵
 };
 
 struct UserInfo{
@@ -41,5 +41,10 @@ struct OnlineUser{
     std::string user_id;
     unsigned int sock_fd;   //在线用户套接字
     bool Isplaying;     //玩家是否正在游戏
+};
+
+struct EMbattle{
+    std::string name;
+    std::string embattle[10];
 };
 
