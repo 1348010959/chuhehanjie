@@ -21,16 +21,24 @@ func main() {
         tag[i] = string([]byte(temp)[i*10:i*10+10])
     }
 
-	query_string := "UPDATE FORMATION SET tag0=?,tag1=?,tag2=?,tag3=?,tag4=?,tag5=?,tag6=?,tag7=?,tag8=?,tag9=?   WHERE userid='"
+	query_string := "UPDATE FORMATION SET tag0=?,tag1=?,tag2=?,tag3=?,tag4=?,tag5=?,tag6=?,tag7=?,tag8=?,tag9=? WHERE userid='"
     query_string += id
     query_string += "';"
     stmt, err := db.Prepare(query_string)
     checkErr(err)
 
-    _, err = stmt.Exec(tag[0],tag[1], tag[2], tag[3], tag[4],tag[5], tag[6], tag[7], tag[8], tag[9])
+    result, err := stmt.Exec(tag[0],tag[1], tag[2], tag[3], tag[4],tag[5], tag[6], tag[7], tag[8], tag[9])
     checkErr(err)
 
-    fmt.Print("OK")
+    affect, err := result.RowsAffected()
+    checkErr(err)
+
+    if affect == 1 {
+        fmt.Print("OK")
+    }else{
+        fmt.Print("Fail")
+    }
+    fmt.Print(affect, query_string)
 
 	db.Close()
 }

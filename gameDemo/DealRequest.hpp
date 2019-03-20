@@ -54,7 +54,7 @@ void Sign_in(const UserInfo& user, const int& client_fd)
     }
 }
 
-void Login(const UserInfo& user, const int& client_fd, std::list<OnlineUser> online)
+void Login(const UserInfo& user, const int& client_fd, std::list<OnlineUser>& online)
 {
     char userid[32] = {0};
     char password[32] = {0}; 
@@ -137,7 +137,6 @@ void Embattle(EMbattle& em, const unsigned int& client_fd, std::list<OnlineUser>
     char Id[32] = {0};
     int input[2];
     int output[2];
-    char buf[8] = {0};
     std::list<OnlineUser>::iterator it = online.begin();
     bool flag = false;
     while(it != online.end())
@@ -149,53 +148,66 @@ void Embattle(EMbattle& em, const unsigned int& client_fd, std::list<OnlineUser>
         }
         it++;
     }
-    if(!flag)
+    /*if(!flag)
     {
         std::cout << "Not online User, error!!" << std::endl;
-    }
+    }*/
 
-    std::string tag = em.embattle[0];
-    for(int i=1; i<9; ++i)
+    //char tagstr[10] = {0};
+    std::string tag = "";
+    for(int i=0; i<10; i++)
     {
+        /*std::cout << em.embattle[i].size() << std::endl;
+        memcpy(tagstr, em.embattle[i].c_str(), 10);
+        tag += tagstr;
+        memset(tagstr, 0, 10);*/
         tag += em.embattle[i];
+        //std::cout << tag.size() << std::endl;
     }
 
+    if(flag)                                                                                                                                              
+    {
+        std::cout << "Args Success" << std::endl;
+        sprintf(Id, "USERID=%s", it->user_id.c_str());
+        putenv(Id);
+        sprintf(Tag, "TAG=%s", tag.c_str());
+        putenv(Tag);
+        printf("%s\n", Tag);
+    }
+    
     pipe(input);
     pipe(output);
 
     pid_t id = fork();
+
     if(id < 0){
         std::cerr << "fork" << std::endl;
         return;
     }
-    else if( id == 0  ){
+    if( id == 0  ){
         close(input[1]);
         close(output[0]);
 
         dup2(input[0], 0);  //对子进程的标准输入输出进行重定向
         dup2(output[1], 1);
 
-        //if(flag)
+        if(execl("./go_sql/Update", NULL) < 0)
         {
-            sprintf(Id, "UERID=%s", it->user_id.c_str());
-            putenv(Id);
-            sprintf(Tag, "TAG=%s", tag.c_str());
-            putenv(Tag);
-
-            execl("./go_sql/Update", NULL);
+            std::cerr << "execl error" << std::endl;
             exit(1);
         }
     }else{
         close(input[0]);
         close(output[1]);
 
-
         char msg[8] = {0};
-        if(read(output[0], buf, sizeof(buf)-1) < 0)
+        char buf[256] = {0};
+        ssize_t s = read(output[0], buf, sizeof(buf)-1);
+        if(s < 0)
         {
             std::cerr << "read" << std::endl;
         }
-        if(strcasecmp(buf, "OK") == 0)
+        if(strncasecmp(buf, "OK", 2) == 0)
         {
             std::cout << "Update success" << std::endl;
             msg[0] = OK;
@@ -203,6 +215,7 @@ void Embattle(EMbattle& em, const unsigned int& client_fd, std::list<OnlineUser>
             std::cout << "Update faile" << std::endl;
             msg[0] = FAIL;
         }
+        printf("buf:%s\n", buf);
         write(client_fd, msg, sizeof(msg)-1);
     }
 }
