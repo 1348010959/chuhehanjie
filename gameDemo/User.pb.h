@@ -291,7 +291,7 @@ class EMbattle : public ::google::protobuf::Message /* @@protoc_insertion_point(
 
   // accessors -------------------------------------------------------
 
-  // repeated string embattle = 2;
+  // repeated bytes embattle = 2;
   int embattle_size() const;
   void clear_embattle();
   static const int kEmbattleFieldNumber = 2;
@@ -302,14 +302,14 @@ class EMbattle : public ::google::protobuf::Message /* @@protoc_insertion_point(
   void set_embattle(int index, ::std::string&& value);
   #endif
   void set_embattle(int index, const char* value);
-  void set_embattle(int index, const char* value, size_t size);
+  void set_embattle(int index, const void* value, size_t size);
   ::std::string* add_embattle();
   void add_embattle(const ::std::string& value);
   #if LANG_CXX11
   void add_embattle(::std::string&& value);
   #endif
   void add_embattle(const char* value);
-  void add_embattle(const char* value, size_t size);
+  void add_embattle(const void* value, size_t size);
   const ::google::protobuf::RepeatedPtrField< ::std::string>& embattle() const;
   ::google::protobuf::RepeatedPtrField< ::std::string>* mutable_embattle();
 
@@ -563,7 +563,7 @@ inline void EMbattle::set_allocated_name(::std::string* name) {
   // @@protoc_insertion_point(field_set_allocated:proto_User.EMbattle.name)
 }
 
-// repeated string embattle = 2;
+// repeated bytes embattle = 2;
 inline int EMbattle::embattle_size() const {
   return embattle_.size();
 }
@@ -593,7 +593,7 @@ inline void EMbattle::set_embattle(int index, const char* value) {
   embattle_.Mutable(index)->assign(value);
   // @@protoc_insertion_point(field_set_char:proto_User.EMbattle.embattle)
 }
-inline void EMbattle::set_embattle(int index, const char* value, size_t size) {
+inline void EMbattle::set_embattle(int index, const void* value, size_t size) {
   embattle_.Mutable(index)->assign(
     reinterpret_cast<const char*>(value), size);
   // @@protoc_insertion_point(field_set_pointer:proto_User.EMbattle.embattle)
@@ -617,7 +617,7 @@ inline void EMbattle::add_embattle(const char* value) {
   embattle_.Add()->assign(value);
   // @@protoc_insertion_point(field_add_char:proto_User.EMbattle.embattle)
 }
-inline void EMbattle::add_embattle(const char* value, size_t size) {
+inline void EMbattle::add_embattle(const void* value, size_t size) {
   embattle_.Add()->assign(reinterpret_cast<const char*>(value), size);
   // @@protoc_insertion_point(field_add_pointer:proto_User.EMbattle.embattle)
 }

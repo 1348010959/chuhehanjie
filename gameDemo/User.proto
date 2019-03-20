@@ -11,6 +11,6 @@ message User
 message EMbattle
 {
     string name = 1;
-    repeated string embattle = 2;
+    repeated bytes embattle = 2;
 }
 

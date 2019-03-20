@@ -131,7 +131,7 @@ void Login(const UserInfo& user, const int& client_fd, std::list<OnlineUser> onl
     }
 }
 
-void Embattle(EMbattle& em,const unsigned int& client_fd, std::list<OnlineUser> online)
+void Embattle(EMbattle& em, const unsigned int& client_fd, std::list<OnlineUser>& online)
 {
     char Tag[128] = {0};
     char Id[32] = {0};
@@ -139,9 +139,19 @@ void Embattle(EMbattle& em,const unsigned int& client_fd, std::list<OnlineUser> 
     int output[2];
     char buf[8] = {0};
     std::list<OnlineUser>::iterator it = online.begin();
-    while((*it).sock_fd != client_fd)
-    {  
+    bool flag = false;
+    while(it != online.end())
+    {
+        if((*it).sock_fd == client_fd)
+        {
+            flag = true;
+            break;
+        }
         it++;
+    }
+    if(!flag)
+    {
+        std::cout << "Not online User, error!!" << std::endl;
     }
 
     std::string tag = em.embattle[0];
@@ -165,14 +175,16 @@ void Embattle(EMbattle& em,const unsigned int& client_fd, std::list<OnlineUser> 
         dup2(input[0], 0);  //对子进程的标准输入输出进行重定向
         dup2(output[1], 1);
 
-        sprintf(Id, "UERID=%s", it->user_id.c_str());
-        putenv(Id);
-        sprintf(Tag, "TAG=%s", tag.c_str());
-        putenv(Tag);
+        //if(flag)
+        {
+            sprintf(Id, "UERID=%s", it->user_id.c_str());
+            putenv(Id);
+            sprintf(Tag, "TAG=%s", tag.c_str());
+            putenv(Tag);
 
-        execl("./go_sql/Update", NULL);
-        exit(1);
-
+            execl("./go_sql/Update", NULL);
+            exit(1);
+        }
     }else{
         close(input[0]);
         close(output[1]);
@@ -182,14 +194,16 @@ void Embattle(EMbattle& em,const unsigned int& client_fd, std::list<OnlineUser> 
         if(read(output[0], buf, sizeof(buf)-1) < 0)
         {
             std::cerr << "read" << std::endl;
-
         }
         if(strcasecmp(buf, "OK") == 0)
         {
-            std::cout << "SIGN_IN succerr" << std::endl;
+            std::cout << "Update success" << std::endl;
             msg[0] = OK;
-
-        }else{}
+        }else{
+            std::cout << "Update faile" << std::endl;
+            msg[0] = FAIL;
+        }
+        write(client_fd, msg, sizeof(msg)-1);
     }
 }
 

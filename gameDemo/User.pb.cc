@@ -117,7 +117,7 @@ void AddDescriptorsImpl() {
   static const char descriptor[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
       "\n\nUser.proto\022\nproto_User\"2\n\004User\022\n\n\002id\030\001"
       " \001(\t\022\020\n\010password\030\002 \001(\t\022\014\n\004name\030\003 \001(\t\"*\n\010"
-      "EMbattle\022\014\n\004name\030\001 \001(\t\022\020\n\010embattle\030\002 \003(\t"
+      "EMbattle\022\014\n\004name\030\001 \001(\t\022\020\n\010embattle\030\002 \003(\014"
       "b\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
@@ -589,17 +589,12 @@ bool EMbattle::MergePartialFromCodedStream(
         break;
       }
 
-      // repeated string embattle = 2;
+      // repeated bytes embattle = 2;
       case 2: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(18u /* 18 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+          DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
                 input, this->add_embattle()));
-          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-            this->embattle(this->embattle_size() - 1).data(),
-            static_cast<int>(this->embattle(this->embattle_size() - 1).length()),
-            ::google::protobuf::internal::WireFormatLite::PARSE,
-            "proto_User.EMbattle.embattle"));
         } else {
           goto handle_unusual;
         }
@@ -642,13 +637,9 @@ void EMbattle::SerializeWithCachedSizes(
       1, this->name(), output);
   }
 
-  // repeated string embattle = 2;
+  // repeated bytes embattle = 2;
   for (int i = 0, n = this->embattle_size(); i < n; i++) {
-    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-      this->embattle(i).data(), static_cast<int>(this->embattle(i).length()),
-      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
-      "proto_User.EMbattle.embattle");
-    ::google::protobuf::internal::WireFormatLite::WriteString(
+    ::google::protobuf::internal::WireFormatLite::WriteBytes(
       2, this->embattle(i), output);
   }
 
@@ -677,14 +668,10 @@ void EMbattle::SerializeWithCachedSizes(
         1, this->name(), target);
   }
 
-  // repeated string embattle = 2;
+  // repeated bytes embattle = 2;
   for (int i = 0, n = this->embattle_size(); i < n; i++) {
-    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-      this->embattle(i).data(), static_cast<int>(this->embattle(i).length()),
-      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
-      "proto_User.EMbattle.embattle");
     target = ::google::protobuf::internal::WireFormatLite::
-      WriteStringToArray(2, this->embattle(i), target);
+      WriteBytesToArray(2, this->embattle(i), target);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -704,11 +691,11 @@ size_t EMbattle::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
   }
-  // repeated string embattle = 2;
+  // repeated bytes embattle = 2;
   total_size += 1 *
       ::google::protobuf::internal::FromIntSize(this->embattle_size());
   for (int i = 0, n = this->embattle_size(); i < n; i++) {
-    total_size += ::google::protobuf::internal::WireFormatLite::StringSize(
+    total_size += ::google::protobuf::internal::WireFormatLite::BytesSize(
       this->embattle(i));
   }
 
