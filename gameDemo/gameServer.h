@@ -16,6 +16,7 @@
 #include <pthread.h>
 #include <list>
 #include <queue>
+#include <map>
 #include "User.pb.h"
 
 enum RequestType{
@@ -28,7 +29,12 @@ enum RequestType{
     LOGINFAIL = 203, //登陆失败
 
     START = 16,    //开始游戏
-    EMBATTLE = 18      //布阵
+    GAMEOVER = 17,  //结束游戏
+    EMBATTLE = 18,      //布阵
+    PLAYDATA = 19,  //游戏中玩家数据
+    SOILDERDATA = 20, //游戏中士兵数据
+    RED = 21,
+    BLUE = 22
 };
 
 struct UserInfo{
@@ -37,10 +43,25 @@ struct UserInfo{
     std::string user_name;
 };
 
-struct OnlineUser{
+struct OnlineInfo{
     std::string user_id;
-    unsigned int sock_fd;   //在线用户套接字
-    bool Isplaying;     //玩家是否正在游戏
+    bool Isplaying;
+};
+
+pthread_cond_t cond;
+pthread_mutex_t mutex;
+
+//struct OnlineUser{
+    //std::string user_id;
+    //unsigned int sock_fd;   //在线用户套接字
+    //std::map<unsigned int, OnlineInfo> online;
+    //bool Isplaying;     //玩家是否正在游戏
+//};
+
+struct Args{
+    std::map<unsigned int, OnlineInfo> online;
+    std::queue<unsigned int> MatchQueue;
+    unsigned int client_fd;
 };
 
 struct EMbattle{

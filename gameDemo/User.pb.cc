@@ -19,6 +19,9 @@
 #endif
 // @@protoc_insertion_point(includes)
 
+namespace protobuf_User_2eproto {
+extern PROTOBUF_INTERNAL_EXPORT_protobuf_User_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_WarData_Vector3;
+}  // namespace protobuf_User_2eproto
 namespace proto_User {
 class UserDefaultTypeInternal {
  public:
@@ -30,6 +33,26 @@ class EMbattleDefaultTypeInternal {
   ::google::protobuf::internal::ExplicitlyConstructed<EMbattle>
       _instance;
 } _EMbattle_default_instance_;
+class WarData_Vector3DefaultTypeInternal {
+ public:
+  ::google::protobuf::internal::ExplicitlyConstructed<WarData_Vector3>
+      _instance;
+} _WarData_Vector3_default_instance_;
+class WarData_SoilderDefaultTypeInternal {
+ public:
+  ::google::protobuf::internal::ExplicitlyConstructed<WarData_Soilder>
+      _instance;
+} _WarData_Soilder_default_instance_;
+class WarData_PlayerDefaultTypeInternal {
+ public:
+  ::google::protobuf::internal::ExplicitlyConstructed<WarData_Player>
+      _instance;
+} _WarData_Player_default_instance_;
+class WarDataDefaultTypeInternal {
+ public:
+  ::google::protobuf::internal::ExplicitlyConstructed<WarData>
+      _instance;
+} _WarData_default_instance_;
 }  // namespace proto_User
 namespace protobuf_User_2eproto {
 static void InitDefaultsUser() {
@@ -60,12 +83,74 @@ static void InitDefaultsEMbattle() {
 ::google::protobuf::internal::SCCInfo<0> scc_info_EMbattle =
     {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 0, InitDefaultsEMbattle}, {}};
 
+static void InitDefaultsWarData_Vector3() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  {
+    void* ptr = &::proto_User::_WarData_Vector3_default_instance_;
+    new (ptr) ::proto_User::WarData_Vector3();
+    ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::proto_User::WarData_Vector3::InitAsDefaultInstance();
+}
+
+::google::protobuf::internal::SCCInfo<0> scc_info_WarData_Vector3 =
+    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 0, InitDefaultsWarData_Vector3}, {}};
+
+static void InitDefaultsWarData_Soilder() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  {
+    void* ptr = &::proto_User::_WarData_Soilder_default_instance_;
+    new (ptr) ::proto_User::WarData_Soilder();
+    ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::proto_User::WarData_Soilder::InitAsDefaultInstance();
+}
+
+::google::protobuf::internal::SCCInfo<0> scc_info_WarData_Soilder =
+    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 0, InitDefaultsWarData_Soilder}, {}};
+
+static void InitDefaultsWarData_Player() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  {
+    void* ptr = &::proto_User::_WarData_Player_default_instance_;
+    new (ptr) ::proto_User::WarData_Player();
+    ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::proto_User::WarData_Player::InitAsDefaultInstance();
+}
+
+::google::protobuf::internal::SCCInfo<1> scc_info_WarData_Player =
+    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 1, InitDefaultsWarData_Player}, {
+      &protobuf_User_2eproto::scc_info_WarData_Vector3.base,}};
+
+static void InitDefaultsWarData() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  {
+    void* ptr = &::proto_User::_WarData_default_instance_;
+    new (ptr) ::proto_User::WarData();
+    ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::proto_User::WarData::InitAsDefaultInstance();
+}
+
+::google::protobuf::internal::SCCInfo<0> scc_info_WarData =
+    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 0, InitDefaultsWarData}, {}};
+
 void InitDefaults() {
   ::google::protobuf::internal::InitSCC(&scc_info_User.base);
   ::google::protobuf::internal::InitSCC(&scc_info_EMbattle.base);
+  ::google::protobuf::internal::InitSCC(&scc_info_WarData_Vector3.base);
+  ::google::protobuf::internal::InitSCC(&scc_info_WarData_Soilder.base);
+  ::google::protobuf::internal::InitSCC(&scc_info_WarData_Player.base);
+  ::google::protobuf::internal::InitSCC(&scc_info_WarData.base);
 }
 
-::google::protobuf::Metadata file_level_metadata[2];
+::google::protobuf::Metadata file_level_metadata[6];
+const ::google::protobuf::EnumDescriptor* file_level_enum_descriptors[1];
 
 const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   ~0u,  // no _has_bits_
@@ -83,22 +168,58 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUT
   ~0u,  // no _weak_field_map_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::proto_User::EMbattle, name_),
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::proto_User::EMbattle, embattle_),
+  ~0u,  // no _has_bits_
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::proto_User::WarData_Vector3, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::proto_User::WarData_Vector3, x_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::proto_User::WarData_Vector3, y_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::proto_User::WarData_Vector3, z_),
+  ~0u,  // no _has_bits_
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::proto_User::WarData_Soilder, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::proto_User::WarData_Soilder, camp_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::proto_User::WarData_Soilder, attack_),
+  ~0u,  // no _has_bits_
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::proto_User::WarData_Player, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::proto_User::WarData_Player, camp_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::proto_User::WarData_Player, self_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::proto_User::WarData_Player, forward_),
+  ~0u,  // no _has_bits_
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::proto_User::WarData, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
 };
 static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(::proto_User::User)},
   { 8, -1, sizeof(::proto_User::EMbattle)},
+  { 15, -1, sizeof(::proto_User::WarData_Vector3)},
+  { 23, -1, sizeof(::proto_User::WarData_Soilder)},
+  { 30, -1, sizeof(::proto_User::WarData_Player)},
+  { 38, -1, sizeof(::proto_User::WarData)},
 };
 
 static ::google::protobuf::Message const * const file_default_instances[] = {
   reinterpret_cast<const ::google::protobuf::Message*>(&::proto_User::_User_default_instance_),
   reinterpret_cast<const ::google::protobuf::Message*>(&::proto_User::_EMbattle_default_instance_),
+  reinterpret_cast<const ::google::protobuf::Message*>(&::proto_User::_WarData_Vector3_default_instance_),
+  reinterpret_cast<const ::google::protobuf::Message*>(&::proto_User::_WarData_Soilder_default_instance_),
+  reinterpret_cast<const ::google::protobuf::Message*>(&::proto_User::_WarData_Player_default_instance_),
+  reinterpret_cast<const ::google::protobuf::Message*>(&::proto_User::_WarData_default_instance_),
 };
 
 void protobuf_AssignDescriptors() {
   AddDescriptors();
   AssignDescriptors(
       "User.proto", schemas, file_default_instances, TableStruct::offsets,
-      file_level_metadata, NULL, NULL);
+      file_level_metadata, file_level_enum_descriptors, NULL);
 }
 
 void protobuf_AssignDescriptorsOnce() {
@@ -109,7 +230,7 @@ void protobuf_AssignDescriptorsOnce() {
 void protobuf_RegisterTypes(const ::std::string&) GOOGLE_PROTOBUF_ATTRIBUTE_COLD;
 void protobuf_RegisterTypes(const ::std::string&) {
   protobuf_AssignDescriptorsOnce();
-  ::google::protobuf::internal::RegisterAllTypes(file_level_metadata, 2);
+  ::google::protobuf::internal::RegisterAllTypes(file_level_metadata, 6);
 }
 
 void AddDescriptorsImpl() {
@@ -118,10 +239,17 @@ void AddDescriptorsImpl() {
       "\n\nUser.proto\022\nproto_User\"2\n\004User\022\n\n\002id\030\001"
       " \001(\t\022\020\n\010password\030\002 \001(\t\022\014\n\004name\030\003 \001(\t\"*\n\010"
       "EMbattle\022\014\n\004name\030\001 \001(\t\022\020\n\010embattle\030\002 \003(\014"
-      "b\006proto3"
+      "\"\256\002\n\007WarData\032*\n\007Vector3\022\t\n\001x\030\001 \001(\002\022\t\n\001y\030"
+      "\002 \001(\002\022\t\n\001z\030\003 \001(\002\032F\n\007Soilder\022+\n\004Camp\030\004 \001("
+      "\0162\035.proto_User.WarData.CampState\022\016\n\006atta"
+      "ck\030\005 \001(\005\032\216\001\n\006Player\022+\n\004Camp\030\006 \001(\0162\035.prot"
+      "o_User.WarData.CampState\022)\n\004Self\030\007 \001(\0132\033"
+      ".proto_User.WarData.Vector3\022,\n\007Forward\030\010"
+      " \001(\0132\033.proto_User.WarData.Vector3\"\036\n\tCam"
+      "pState\022\007\n\003red\020\000\022\010\n\004blue\020\001b\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 128);
+      descriptor, 433);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "User.proto", &protobuf_RegisterTypes);
 }
@@ -138,6 +266,27 @@ struct StaticDescriptorInitializer {
 } static_descriptor_initializer;
 }  // namespace protobuf_User_2eproto
 namespace proto_User {
+const ::google::protobuf::EnumDescriptor* WarData_CampState_descriptor() {
+  protobuf_User_2eproto::protobuf_AssignDescriptorsOnce();
+  return protobuf_User_2eproto::file_level_enum_descriptors[0];
+}
+bool WarData_CampState_IsValid(int value) {
+  switch (value) {
+    case 0:
+    case 1:
+      return true;
+    default:
+      return false;
+  }
+}
+
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
+const WarData_CampState WarData::red;
+const WarData_CampState WarData::blue;
+const WarData_CampState WarData::CampState_MIN;
+const WarData_CampState WarData::CampState_MAX;
+const int WarData::CampState_ARRAYSIZE;
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 // ===================================================================
 
@@ -776,6 +925,1072 @@ void EMbattle::InternalSwap(EMbattle* other) {
 }
 
 
+// ===================================================================
+
+void WarData_Vector3::InitAsDefaultInstance() {
+}
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
+const int WarData_Vector3::kXFieldNumber;
+const int WarData_Vector3::kYFieldNumber;
+const int WarData_Vector3::kZFieldNumber;
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+
+WarData_Vector3::WarData_Vector3()
+  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
+  ::google::protobuf::internal::InitSCC(
+      &protobuf_User_2eproto::scc_info_WarData_Vector3.base);
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:proto_User.WarData.Vector3)
+}
+WarData_Vector3::WarData_Vector3(const WarData_Vector3& from)
+  : ::google::protobuf::Message(),
+      _internal_metadata_(NULL) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::memcpy(&x_, &from.x_,
+    static_cast<size_t>(reinterpret_cast<char*>(&z_) -
+    reinterpret_cast<char*>(&x_)) + sizeof(z_));
+  // @@protoc_insertion_point(copy_constructor:proto_User.WarData.Vector3)
+}
+
+void WarData_Vector3::SharedCtor() {
+  ::memset(&x_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&z_) -
+      reinterpret_cast<char*>(&x_)) + sizeof(z_));
+}
+
+WarData_Vector3::~WarData_Vector3() {
+  // @@protoc_insertion_point(destructor:proto_User.WarData.Vector3)
+  SharedDtor();
+}
+
+void WarData_Vector3::SharedDtor() {
+}
+
+void WarData_Vector3::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+const ::google::protobuf::Descriptor* WarData_Vector3::descriptor() {
+  ::protobuf_User_2eproto::protobuf_AssignDescriptorsOnce();
+  return ::protobuf_User_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
+}
+
+const WarData_Vector3& WarData_Vector3::default_instance() {
+  ::google::protobuf::internal::InitSCC(&protobuf_User_2eproto::scc_info_WarData_Vector3.base);
+  return *internal_default_instance();
+}
+
+
+void WarData_Vector3::Clear() {
+// @@protoc_insertion_point(message_clear_start:proto_User.WarData.Vector3)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  ::memset(&x_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&z_) -
+      reinterpret_cast<char*>(&x_)) + sizeof(z_));
+  _internal_metadata_.Clear();
+}
+
+bool WarData_Vector3::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
+  ::google::protobuf::uint32 tag;
+  // @@protoc_insertion_point(parse_start:proto_User.WarData.Vector3)
+  for (;;) {
+    ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // float x = 1;
+      case 1: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(13u /* 13 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
+                 input, &x_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // float y = 2;
+      case 2: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(21u /* 21 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
+                 input, &y_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // float z = 3;
+      case 3: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(29u /* 29 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
+                 input, &z_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      default: {
+      handle_unusual:
+        if (tag == 0) {
+          goto success;
+        }
+        DO_(::google::protobuf::internal::WireFormat::SkipField(
+              input, tag, _internal_metadata_.mutable_unknown_fields()));
+        break;
+      }
+    }
+  }
+success:
+  // @@protoc_insertion_point(parse_success:proto_User.WarData.Vector3)
+  return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:proto_User.WarData.Vector3)
+  return false;
+#undef DO_
+}
+
+void WarData_Vector3::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:proto_User.WarData.Vector3)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // float x = 1;
+  if (this->x() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteFloat(1, this->x(), output);
+  }
+
+  // float y = 2;
+  if (this->y() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteFloat(2, this->y(), output);
+  }
+
+  // float z = 3;
+  if (this->z() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteFloat(3, this->z(), output);
+  }
+
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
+  }
+  // @@protoc_insertion_point(serialize_end:proto_User.WarData.Vector3)
+}
+
+::google::protobuf::uint8* WarData_Vector3::InternalSerializeWithCachedSizesToArray(
+    bool deterministic, ::google::protobuf::uint8* target) const {
+  (void)deterministic; // Unused
+  // @@protoc_insertion_point(serialize_to_array_start:proto_User.WarData.Vector3)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // float x = 1;
+  if (this->x() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(1, this->x(), target);
+  }
+
+  // float y = 2;
+  if (this->y() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(2, this->y(), target);
+  }
+
+  // float z = 3;
+  if (this->z() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(3, this->z(), target);
+  }
+
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:proto_User.WarData.Vector3)
+  return target;
+}
+
+size_t WarData_Vector3::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:proto_User.WarData.Vector3)
+  size_t total_size = 0;
+
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    total_size +=
+      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
+  }
+  // float x = 1;
+  if (this->x() != 0) {
+    total_size += 1 + 4;
+  }
+
+  // float y = 2;
+  if (this->y() != 0) {
+    total_size += 1 + 4;
+  }
+
+  // float z = 3;
+  if (this->z() != 0) {
+    total_size += 1 + 4;
+  }
+
+  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
+}
+
+void WarData_Vector3::MergeFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:proto_User.WarData.Vector3)
+  GOOGLE_DCHECK_NE(&from, this);
+  const WarData_Vector3* source =
+      ::google::protobuf::internal::DynamicCastToGenerated<const WarData_Vector3>(
+          &from);
+  if (source == NULL) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:proto_User.WarData.Vector3)
+    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:proto_User.WarData.Vector3)
+    MergeFrom(*source);
+  }
+}
+
+void WarData_Vector3::MergeFrom(const WarData_Vector3& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:proto_User.WarData.Vector3)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from.x() != 0) {
+    set_x(from.x());
+  }
+  if (from.y() != 0) {
+    set_y(from.y());
+  }
+  if (from.z() != 0) {
+    set_z(from.z());
+  }
+}
+
+void WarData_Vector3::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:proto_User.WarData.Vector3)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void WarData_Vector3::CopyFrom(const WarData_Vector3& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:proto_User.WarData.Vector3)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool WarData_Vector3::IsInitialized() const {
+  return true;
+}
+
+void WarData_Vector3::Swap(WarData_Vector3* other) {
+  if (other == this) return;
+  InternalSwap(other);
+}
+void WarData_Vector3::InternalSwap(WarData_Vector3* other) {
+  using std::swap;
+  swap(x_, other->x_);
+  swap(y_, other->y_);
+  swap(z_, other->z_);
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+}
+
+::google::protobuf::Metadata WarData_Vector3::GetMetadata() const {
+  protobuf_User_2eproto::protobuf_AssignDescriptorsOnce();
+  return ::protobuf_User_2eproto::file_level_metadata[kIndexInFileMessages];
+}
+
+
+// ===================================================================
+
+void WarData_Soilder::InitAsDefaultInstance() {
+}
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
+const int WarData_Soilder::kCampFieldNumber;
+const int WarData_Soilder::kAttackFieldNumber;
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+
+WarData_Soilder::WarData_Soilder()
+  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
+  ::google::protobuf::internal::InitSCC(
+      &protobuf_User_2eproto::scc_info_WarData_Soilder.base);
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:proto_User.WarData.Soilder)
+}
+WarData_Soilder::WarData_Soilder(const WarData_Soilder& from)
+  : ::google::protobuf::Message(),
+      _internal_metadata_(NULL) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::memcpy(&camp_, &from.camp_,
+    static_cast<size_t>(reinterpret_cast<char*>(&attack_) -
+    reinterpret_cast<char*>(&camp_)) + sizeof(attack_));
+  // @@protoc_insertion_point(copy_constructor:proto_User.WarData.Soilder)
+}
+
+void WarData_Soilder::SharedCtor() {
+  ::memset(&camp_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&attack_) -
+      reinterpret_cast<char*>(&camp_)) + sizeof(attack_));
+}
+
+WarData_Soilder::~WarData_Soilder() {
+  // @@protoc_insertion_point(destructor:proto_User.WarData.Soilder)
+  SharedDtor();
+}
+
+void WarData_Soilder::SharedDtor() {
+}
+
+void WarData_Soilder::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+const ::google::protobuf::Descriptor* WarData_Soilder::descriptor() {
+  ::protobuf_User_2eproto::protobuf_AssignDescriptorsOnce();
+  return ::protobuf_User_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
+}
+
+const WarData_Soilder& WarData_Soilder::default_instance() {
+  ::google::protobuf::internal::InitSCC(&protobuf_User_2eproto::scc_info_WarData_Soilder.base);
+  return *internal_default_instance();
+}
+
+
+void WarData_Soilder::Clear() {
+// @@protoc_insertion_point(message_clear_start:proto_User.WarData.Soilder)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  ::memset(&camp_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&attack_) -
+      reinterpret_cast<char*>(&camp_)) + sizeof(attack_));
+  _internal_metadata_.Clear();
+}
+
+bool WarData_Soilder::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
+  ::google::protobuf::uint32 tag;
+  // @@protoc_insertion_point(parse_start:proto_User.WarData.Soilder)
+  for (;;) {
+    ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // .proto_User.WarData.CampState Camp = 4;
+      case 4: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(32u /* 32 & 0xFF */)) {
+          int value;
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   int, ::google::protobuf::internal::WireFormatLite::TYPE_ENUM>(
+                 input, &value)));
+          set_camp(static_cast< ::proto_User::WarData_CampState >(value));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // int32 attack = 5;
+      case 5: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(40u /* 40 & 0xFF */)) {
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, &attack_)));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      default: {
+      handle_unusual:
+        if (tag == 0) {
+          goto success;
+        }
+        DO_(::google::protobuf::internal::WireFormat::SkipField(
+              input, tag, _internal_metadata_.mutable_unknown_fields()));
+        break;
+      }
+    }
+  }
+success:
+  // @@protoc_insertion_point(parse_success:proto_User.WarData.Soilder)
+  return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:proto_User.WarData.Soilder)
+  return false;
+#undef DO_
+}
+
+void WarData_Soilder::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:proto_User.WarData.Soilder)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // .proto_User.WarData.CampState Camp = 4;
+  if (this->camp() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteEnum(
+      4, this->camp(), output);
+  }
+
+  // int32 attack = 5;
+  if (this->attack() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(5, this->attack(), output);
+  }
+
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
+  }
+  // @@protoc_insertion_point(serialize_end:proto_User.WarData.Soilder)
+}
+
+::google::protobuf::uint8* WarData_Soilder::InternalSerializeWithCachedSizesToArray(
+    bool deterministic, ::google::protobuf::uint8* target) const {
+  (void)deterministic; // Unused
+  // @@protoc_insertion_point(serialize_to_array_start:proto_User.WarData.Soilder)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // .proto_User.WarData.CampState Camp = 4;
+  if (this->camp() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteEnumToArray(
+      4, this->camp(), target);
+  }
+
+  // int32 attack = 5;
+  if (this->attack() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(5, this->attack(), target);
+  }
+
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:proto_User.WarData.Soilder)
+  return target;
+}
+
+size_t WarData_Soilder::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:proto_User.WarData.Soilder)
+  size_t total_size = 0;
+
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    total_size +=
+      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
+  }
+  // .proto_User.WarData.CampState Camp = 4;
+  if (this->camp() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::EnumSize(this->camp());
+  }
+
+  // int32 attack = 5;
+  if (this->attack() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::Int32Size(
+        this->attack());
+  }
+
+  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
+}
+
+void WarData_Soilder::MergeFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:proto_User.WarData.Soilder)
+  GOOGLE_DCHECK_NE(&from, this);
+  const WarData_Soilder* source =
+      ::google::protobuf::internal::DynamicCastToGenerated<const WarData_Soilder>(
+          &from);
+  if (source == NULL) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:proto_User.WarData.Soilder)
+    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:proto_User.WarData.Soilder)
+    MergeFrom(*source);
+  }
+}
+
+void WarData_Soilder::MergeFrom(const WarData_Soilder& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:proto_User.WarData.Soilder)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from.camp() != 0) {
+    set_camp(from.camp());
+  }
+  if (from.attack() != 0) {
+    set_attack(from.attack());
+  }
+}
+
+void WarData_Soilder::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:proto_User.WarData.Soilder)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void WarData_Soilder::CopyFrom(const WarData_Soilder& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:proto_User.WarData.Soilder)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool WarData_Soilder::IsInitialized() const {
+  return true;
+}
+
+void WarData_Soilder::Swap(WarData_Soilder* other) {
+  if (other == this) return;
+  InternalSwap(other);
+}
+void WarData_Soilder::InternalSwap(WarData_Soilder* other) {
+  using std::swap;
+  swap(camp_, other->camp_);
+  swap(attack_, other->attack_);
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+}
+
+::google::protobuf::Metadata WarData_Soilder::GetMetadata() const {
+  protobuf_User_2eproto::protobuf_AssignDescriptorsOnce();
+  return ::protobuf_User_2eproto::file_level_metadata[kIndexInFileMessages];
+}
+
+
+// ===================================================================
+
+void WarData_Player::InitAsDefaultInstance() {
+  ::proto_User::_WarData_Player_default_instance_._instance.get_mutable()->self_ = const_cast< ::proto_User::WarData_Vector3*>(
+      ::proto_User::WarData_Vector3::internal_default_instance());
+  ::proto_User::_WarData_Player_default_instance_._instance.get_mutable()->forward_ = const_cast< ::proto_User::WarData_Vector3*>(
+      ::proto_User::WarData_Vector3::internal_default_instance());
+}
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
+const int WarData_Player::kCampFieldNumber;
+const int WarData_Player::kSelfFieldNumber;
+const int WarData_Player::kForwardFieldNumber;
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+
+WarData_Player::WarData_Player()
+  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
+  ::google::protobuf::internal::InitSCC(
+      &protobuf_User_2eproto::scc_info_WarData_Player.base);
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:proto_User.WarData.Player)
+}
+WarData_Player::WarData_Player(const WarData_Player& from)
+  : ::google::protobuf::Message(),
+      _internal_metadata_(NULL) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  if (from.has_self()) {
+    self_ = new ::proto_User::WarData_Vector3(*from.self_);
+  } else {
+    self_ = NULL;
+  }
+  if (from.has_forward()) {
+    forward_ = new ::proto_User::WarData_Vector3(*from.forward_);
+  } else {
+    forward_ = NULL;
+  }
+  camp_ = from.camp_;
+  // @@protoc_insertion_point(copy_constructor:proto_User.WarData.Player)
+}
+
+void WarData_Player::SharedCtor() {
+  ::memset(&self_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&camp_) -
+      reinterpret_cast<char*>(&self_)) + sizeof(camp_));
+}
+
+WarData_Player::~WarData_Player() {
+  // @@protoc_insertion_point(destructor:proto_User.WarData.Player)
+  SharedDtor();
+}
+
+void WarData_Player::SharedDtor() {
+  if (this != internal_default_instance()) delete self_;
+  if (this != internal_default_instance()) delete forward_;
+}
+
+void WarData_Player::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+const ::google::protobuf::Descriptor* WarData_Player::descriptor() {
+  ::protobuf_User_2eproto::protobuf_AssignDescriptorsOnce();
+  return ::protobuf_User_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
+}
+
+const WarData_Player& WarData_Player::default_instance() {
+  ::google::protobuf::internal::InitSCC(&protobuf_User_2eproto::scc_info_WarData_Player.base);
+  return *internal_default_instance();
+}
+
+
+void WarData_Player::Clear() {
+// @@protoc_insertion_point(message_clear_start:proto_User.WarData.Player)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  if (GetArenaNoVirtual() == NULL && self_ != NULL) {
+    delete self_;
+  }
+  self_ = NULL;
+  if (GetArenaNoVirtual() == NULL && forward_ != NULL) {
+    delete forward_;
+  }
+  forward_ = NULL;
+  camp_ = 0;
+  _internal_metadata_.Clear();
+}
+
+bool WarData_Player::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
+  ::google::protobuf::uint32 tag;
+  // @@protoc_insertion_point(parse_start:proto_User.WarData.Player)
+  for (;;) {
+    ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // .proto_User.WarData.CampState Camp = 6;
+      case 6: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(48u /* 48 & 0xFF */)) {
+          int value;
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   int, ::google::protobuf::internal::WireFormatLite::TYPE_ENUM>(
+                 input, &value)));
+          set_camp(static_cast< ::proto_User::WarData_CampState >(value));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // .proto_User.WarData.Vector3 Self = 7;
+      case 7: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(58u /* 58 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
+               input, mutable_self()));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // .proto_User.WarData.Vector3 Forward = 8;
+      case 8: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(66u /* 66 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
+               input, mutable_forward()));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      default: {
+      handle_unusual:
+        if (tag == 0) {
+          goto success;
+        }
+        DO_(::google::protobuf::internal::WireFormat::SkipField(
+              input, tag, _internal_metadata_.mutable_unknown_fields()));
+        break;
+      }
+    }
+  }
+success:
+  // @@protoc_insertion_point(parse_success:proto_User.WarData.Player)
+  return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:proto_User.WarData.Player)
+  return false;
+#undef DO_
+}
+
+void WarData_Player::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:proto_User.WarData.Player)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // .proto_User.WarData.CampState Camp = 6;
+  if (this->camp() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteEnum(
+      6, this->camp(), output);
+  }
+
+  // .proto_User.WarData.Vector3 Self = 7;
+  if (this->has_self()) {
+    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+      7, this->_internal_self(), output);
+  }
+
+  // .proto_User.WarData.Vector3 Forward = 8;
+  if (this->has_forward()) {
+    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+      8, this->_internal_forward(), output);
+  }
+
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
+  }
+  // @@protoc_insertion_point(serialize_end:proto_User.WarData.Player)
+}
+
+::google::protobuf::uint8* WarData_Player::InternalSerializeWithCachedSizesToArray(
+    bool deterministic, ::google::protobuf::uint8* target) const {
+  (void)deterministic; // Unused
+  // @@protoc_insertion_point(serialize_to_array_start:proto_User.WarData.Player)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // .proto_User.WarData.CampState Camp = 6;
+  if (this->camp() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteEnumToArray(
+      6, this->camp(), target);
+  }
+
+  // .proto_User.WarData.Vector3 Self = 7;
+  if (this->has_self()) {
+    target = ::google::protobuf::internal::WireFormatLite::
+      InternalWriteMessageToArray(
+        7, this->_internal_self(), deterministic, target);
+  }
+
+  // .proto_User.WarData.Vector3 Forward = 8;
+  if (this->has_forward()) {
+    target = ::google::protobuf::internal::WireFormatLite::
+      InternalWriteMessageToArray(
+        8, this->_internal_forward(), deterministic, target);
+  }
+
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:proto_User.WarData.Player)
+  return target;
+}
+
+size_t WarData_Player::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:proto_User.WarData.Player)
+  size_t total_size = 0;
+
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    total_size +=
+      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
+  }
+  // .proto_User.WarData.Vector3 Self = 7;
+  if (this->has_self()) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::MessageSize(
+        *self_);
+  }
+
+  // .proto_User.WarData.Vector3 Forward = 8;
+  if (this->has_forward()) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::MessageSize(
+        *forward_);
+  }
+
+  // .proto_User.WarData.CampState Camp = 6;
+  if (this->camp() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::EnumSize(this->camp());
+  }
+
+  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
+}
+
+void WarData_Player::MergeFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:proto_User.WarData.Player)
+  GOOGLE_DCHECK_NE(&from, this);
+  const WarData_Player* source =
+      ::google::protobuf::internal::DynamicCastToGenerated<const WarData_Player>(
+          &from);
+  if (source == NULL) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:proto_User.WarData.Player)
+    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:proto_User.WarData.Player)
+    MergeFrom(*source);
+  }
+}
+
+void WarData_Player::MergeFrom(const WarData_Player& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:proto_User.WarData.Player)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from.has_self()) {
+    mutable_self()->::proto_User::WarData_Vector3::MergeFrom(from.self());
+  }
+  if (from.has_forward()) {
+    mutable_forward()->::proto_User::WarData_Vector3::MergeFrom(from.forward());
+  }
+  if (from.camp() != 0) {
+    set_camp(from.camp());
+  }
+}
+
+void WarData_Player::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:proto_User.WarData.Player)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void WarData_Player::CopyFrom(const WarData_Player& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:proto_User.WarData.Player)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool WarData_Player::IsInitialized() const {
+  return true;
+}
+
+void WarData_Player::Swap(WarData_Player* other) {
+  if (other == this) return;
+  InternalSwap(other);
+}
+void WarData_Player::InternalSwap(WarData_Player* other) {
+  using std::swap;
+  swap(self_, other->self_);
+  swap(forward_, other->forward_);
+  swap(camp_, other->camp_);
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+}
+
+::google::protobuf::Metadata WarData_Player::GetMetadata() const {
+  protobuf_User_2eproto::protobuf_AssignDescriptorsOnce();
+  return ::protobuf_User_2eproto::file_level_metadata[kIndexInFileMessages];
+}
+
+
+// ===================================================================
+
+void WarData::InitAsDefaultInstance() {
+}
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+
+WarData::WarData()
+  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
+  ::google::protobuf::internal::InitSCC(
+      &protobuf_User_2eproto::scc_info_WarData.base);
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:proto_User.WarData)
+}
+WarData::WarData(const WarData& from)
+  : ::google::protobuf::Message(),
+      _internal_metadata_(NULL) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  // @@protoc_insertion_point(copy_constructor:proto_User.WarData)
+}
+
+void WarData::SharedCtor() {
+}
+
+WarData::~WarData() {
+  // @@protoc_insertion_point(destructor:proto_User.WarData)
+  SharedDtor();
+}
+
+void WarData::SharedDtor() {
+}
+
+void WarData::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+const ::google::protobuf::Descriptor* WarData::descriptor() {
+  ::protobuf_User_2eproto::protobuf_AssignDescriptorsOnce();
+  return ::protobuf_User_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
+}
+
+const WarData& WarData::default_instance() {
+  ::google::protobuf::internal::InitSCC(&protobuf_User_2eproto::scc_info_WarData.base);
+  return *internal_default_instance();
+}
+
+
+void WarData::Clear() {
+// @@protoc_insertion_point(message_clear_start:proto_User.WarData)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _internal_metadata_.Clear();
+}
+
+bool WarData::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
+  ::google::protobuf::uint32 tag;
+  // @@protoc_insertion_point(parse_start:proto_User.WarData)
+  for (;;) {
+    ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
+  handle_unusual:
+    if (tag == 0) {
+      goto success;
+    }
+    DO_(::google::protobuf::internal::WireFormat::SkipField(
+          input, tag, _internal_metadata_.mutable_unknown_fields()));
+  }
+success:
+  // @@protoc_insertion_point(parse_success:proto_User.WarData)
+  return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:proto_User.WarData)
+  return false;
+#undef DO_
+}
+
+void WarData::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:proto_User.WarData)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), output);
+  }
+  // @@protoc_insertion_point(serialize_end:proto_User.WarData)
+}
+
+::google::protobuf::uint8* WarData::InternalSerializeWithCachedSizesToArray(
+    bool deterministic, ::google::protobuf::uint8* target) const {
+  (void)deterministic; // Unused
+  // @@protoc_insertion_point(serialize_to_array_start:proto_User.WarData)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()), target);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:proto_User.WarData)
+  return target;
+}
+
+size_t WarData::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:proto_User.WarData)
+  size_t total_size = 0;
+
+  if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
+    total_size +=
+      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
+        (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
+  }
+  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
+}
+
+void WarData::MergeFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:proto_User.WarData)
+  GOOGLE_DCHECK_NE(&from, this);
+  const WarData* source =
+      ::google::protobuf::internal::DynamicCastToGenerated<const WarData>(
+          &from);
+  if (source == NULL) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:proto_User.WarData)
+    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:proto_User.WarData)
+    MergeFrom(*source);
+  }
+}
+
+void WarData::MergeFrom(const WarData& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:proto_User.WarData)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+}
+
+void WarData::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:proto_User.WarData)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void WarData::CopyFrom(const WarData& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:proto_User.WarData)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool WarData::IsInitialized() const {
+  return true;
+}
+
+void WarData::Swap(WarData* other) {
+  if (other == this) return;
+  InternalSwap(other);
+}
+void WarData::InternalSwap(WarData* other) {
+  using std::swap;
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+}
+
+::google::protobuf::Metadata WarData::GetMetadata() const {
+  protobuf_User_2eproto::protobuf_AssignDescriptorsOnce();
+  return ::protobuf_User_2eproto::file_level_metadata[kIndexInFileMessages];
+}
+
+
 // @@protoc_insertion_point(namespace_scope)
 }  // namespace proto_User
 namespace google {
@@ -785,6 +2000,18 @@ template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::proto_User::User* Arena::CreateM
 }
 template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::proto_User::EMbattle* Arena::CreateMaybeMessage< ::proto_User::EMbattle >(Arena* arena) {
   return Arena::CreateInternal< ::proto_User::EMbattle >(arena);
+}
+template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::proto_User::WarData_Vector3* Arena::CreateMaybeMessage< ::proto_User::WarData_Vector3 >(Arena* arena) {
+  return Arena::CreateInternal< ::proto_User::WarData_Vector3 >(arena);
+}
+template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::proto_User::WarData_Soilder* Arena::CreateMaybeMessage< ::proto_User::WarData_Soilder >(Arena* arena) {
+  return Arena::CreateInternal< ::proto_User::WarData_Soilder >(arena);
+}
+template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::proto_User::WarData_Player* Arena::CreateMaybeMessage< ::proto_User::WarData_Player >(Arena* arena) {
+  return Arena::CreateInternal< ::proto_User::WarData_Player >(arena);
+}
+template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::proto_User::WarData* Arena::CreateMaybeMessage< ::proto_User::WarData >(Arena* arena) {
+  return Arena::CreateInternal< ::proto_User::WarData >(arena);
 }
 }  // namespace protobuf
 }  // namespace google

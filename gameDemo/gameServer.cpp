@@ -53,7 +53,7 @@ void ProcessConnect(const int& listen_sock, int& epoll_fd)
     }
 }
 
-void ProcessRequest(const unsigned int connect_fd, const unsigned int epoll_fd, std::list<OnlineUser>& online, std::queue<OnlineUser>& MatchQueue, threadpool_t* pool)
+void ProcessRequest(const unsigned int connect_fd, const unsigned int epoll_fd, std::map<unsigned int, OnlineInfo>& online,std::queue<unsigned int> &MatchQueue, threadpool_t* pool)
 {
     char buf[1024] = {0};
     ssize_t read_size = read(connect_fd, buf,sizeof(buf)-1);
@@ -63,9 +63,12 @@ void ProcessRequest(const unsigned int connect_fd, const unsigned int epoll_fd, 
     }else if(read_size == 0){
         close(connect_fd);
         epoll_ctl(epoll_fd, EPOLL_CTL_DEL, connect_fd, NULL);
-        std::list<OnlineUser>::iterator it = online.begin();
-        bool flag = false;
-        while(it != online.end())
+        //std::list<OnlineUser>::iterator it = online.begin();
+        //int flag = false;
+        std::map<unsigned int, OnlineInfo>::iterator it;
+        it = online.find(connect_fd);
+        online.erase(it);
+        /*while(it != online.end())
         {
             if((*it).sock_fd == connect_fd)
             {
@@ -77,14 +80,23 @@ void ProcessRequest(const unsigned int connect_fd, const unsigned int epoll_fd, 
         if(flag)
         {
             online.erase(it);
-        }
+        }*/
         std::cout << "online user size:" << online.size() << std::endl;
         std::cout << "client quit" << std::endl;
         return;
     }
-    std::string serialized = buf+1;
+    std::string serialized = buf+3;
     UserInfo user;
     EMbattle em;
+    if(buf[0] == START)
+    {
+        std::cout << "START" << std::endl;
+        Args* parg = new Args;
+        parg->online = online;
+        parg->MatchQueue = MatchQueue;
+        parg->client_fd = connect_fd;
+        thread_add_task(pool, Match, parg);
+    }
     switch(buf[0]){
     case SIGN_IN:
         std::cout << "SIGN_IN" << std::endl;
@@ -97,8 +109,7 @@ void ProcessRequest(const unsigned int connect_fd, const unsigned int epoll_fd, 
         Login(user, connect_fd, online);
         break;
     case START:
-        std::cout << "START" << std::endl;
-        Match(online, MatchQueue, connect_fd);
+        //Match(online, MatchQueue, connect_fd);
         break;
     case EMBATTLE:
         std::cout << "EMBATTLE" << std::endl;
@@ -118,9 +129,13 @@ int main(int argc, char* argv[])
         std::cerr << "Usage ./gameServer [port]" << std::endl;
         return 1;
     }
-    std::list<OnlineUser> online;
-    std::queue<OnlineUser> MatchQueue;
+    //std::list<OnlineUser> online;
+    std::map<unsigned int, OnlineInfo> online;
+    std::queue<unsigned int> MatchQueue;
     threadpool_t pool;
+
+    pthread_cond_init(&cond, NULL);
+    pthread_mutex_init(&mutex, NULL);
     threadpool_init(&pool, 10);
 
     int listen_sock = startup(atoi(argv[1]));
@@ -167,6 +182,8 @@ int main(int argc, char* argv[])
         }
     }
     threadpool_destroy(&pool);
+    pthread_mutex_destroy(&mutex);
+    pthread_cond_destroy(&cond);
     google::protobuf::ShutdownProtobufLibrary();
     return 0;    
 }

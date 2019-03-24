@@ -29,6 +29,7 @@
 #include <google/protobuf/message.h>
 #include <google/protobuf/repeated_field.h>  // IWYU pragma: export
 #include <google/protobuf/extension_set.h>  // IWYU pragma: export
+#include <google/protobuf/generated_enum_reflection.h>
 #include <google/protobuf/unknown_field_set.h>
 // @@protoc_insertion_point(includes)
 #define PROTOBUF_INTERNAL_EXPORT_protobuf_User_2eproto 
@@ -38,7 +39,7 @@ namespace protobuf_User_2eproto {
 struct TableStruct {
   static const ::google::protobuf::internal::ParseTableField entries[];
   static const ::google::protobuf::internal::AuxillaryParseTableField aux[];
-  static const ::google::protobuf::internal::ParseTable schema[2];
+  static const ::google::protobuf::internal::ParseTable schema[6];
   static const ::google::protobuf::internal::FieldMetadata field_metadata[];
   static const ::google::protobuf::internal::SerializationTable serialization_table[];
   static const ::google::protobuf::uint32 offsets[];
@@ -52,15 +53,52 @@ extern EMbattleDefaultTypeInternal _EMbattle_default_instance_;
 class User;
 class UserDefaultTypeInternal;
 extern UserDefaultTypeInternal _User_default_instance_;
+class WarData;
+class WarDataDefaultTypeInternal;
+extern WarDataDefaultTypeInternal _WarData_default_instance_;
+class WarData_Player;
+class WarData_PlayerDefaultTypeInternal;
+extern WarData_PlayerDefaultTypeInternal _WarData_Player_default_instance_;
+class WarData_Soilder;
+class WarData_SoilderDefaultTypeInternal;
+extern WarData_SoilderDefaultTypeInternal _WarData_Soilder_default_instance_;
+class WarData_Vector3;
+class WarData_Vector3DefaultTypeInternal;
+extern WarData_Vector3DefaultTypeInternal _WarData_Vector3_default_instance_;
 }  // namespace proto_User
 namespace google {
 namespace protobuf {
 template<> ::proto_User::EMbattle* Arena::CreateMaybeMessage<::proto_User::EMbattle>(Arena*);
 template<> ::proto_User::User* Arena::CreateMaybeMessage<::proto_User::User>(Arena*);
+template<> ::proto_User::WarData* Arena::CreateMaybeMessage<::proto_User::WarData>(Arena*);
+template<> ::proto_User::WarData_Player* Arena::CreateMaybeMessage<::proto_User::WarData_Player>(Arena*);
+template<> ::proto_User::WarData_Soilder* Arena::CreateMaybeMessage<::proto_User::WarData_Soilder>(Arena*);
+template<> ::proto_User::WarData_Vector3* Arena::CreateMaybeMessage<::proto_User::WarData_Vector3>(Arena*);
 }  // namespace protobuf
 }  // namespace google
 namespace proto_User {
 
+enum WarData_CampState {
+  WarData_CampState_red = 0,
+  WarData_CampState_blue = 1,
+  WarData_CampState_WarData_CampState_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
+  WarData_CampState_WarData_CampState_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
+};
+bool WarData_CampState_IsValid(int value);
+const WarData_CampState WarData_CampState_CampState_MIN = WarData_CampState_red;
+const WarData_CampState WarData_CampState_CampState_MAX = WarData_CampState_blue;
+const int WarData_CampState_CampState_ARRAYSIZE = WarData_CampState_CampState_MAX + 1;
+
+const ::google::protobuf::EnumDescriptor* WarData_CampState_descriptor();
+inline const ::std::string& WarData_CampState_Name(WarData_CampState value) {
+  return ::google::protobuf::internal::NameOfEnum(
+    WarData_CampState_descriptor(), value);
+}
+inline bool WarData_CampState_Parse(
+    const ::std::string& name, WarData_CampState* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<WarData_CampState>(
+    WarData_CampState_descriptor(), name, value);
+}
 // ===================================================================
 
 class User : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:proto_User.User) */ {
@@ -333,6 +371,488 @@ class EMbattle : public ::google::protobuf::Message /* @@protoc_insertion_point(
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::RepeatedPtrField< ::std::string> embattle_;
   ::google::protobuf::internal::ArenaStringPtr name_;
+  mutable ::google::protobuf::internal::CachedSize _cached_size_;
+  friend struct ::protobuf_User_2eproto::TableStruct;
+};
+// -------------------------------------------------------------------
+
+class WarData_Vector3 : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:proto_User.WarData.Vector3) */ {
+ public:
+  WarData_Vector3();
+  virtual ~WarData_Vector3();
+
+  WarData_Vector3(const WarData_Vector3& from);
+
+  inline WarData_Vector3& operator=(const WarData_Vector3& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  WarData_Vector3(WarData_Vector3&& from) noexcept
+    : WarData_Vector3() {
+    *this = ::std::move(from);
+  }
+
+  inline WarData_Vector3& operator=(WarData_Vector3&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const WarData_Vector3& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const WarData_Vector3* internal_default_instance() {
+    return reinterpret_cast<const WarData_Vector3*>(
+               &_WarData_Vector3_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    2;
+
+  void Swap(WarData_Vector3* other);
+  friend void swap(WarData_Vector3& a, WarData_Vector3& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline WarData_Vector3* New() const final {
+    return CreateMaybeMessage<WarData_Vector3>(NULL);
+  }
+
+  WarData_Vector3* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<WarData_Vector3>(arena);
+  }
+  void CopyFrom(const ::google::protobuf::Message& from) final;
+  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CopyFrom(const WarData_Vector3& from);
+  void MergeFrom(const WarData_Vector3& from);
+  void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) final;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const final;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(WarData_Vector3* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // float x = 1;
+  void clear_x();
+  static const int kXFieldNumber = 1;
+  float x() const;
+  void set_x(float value);
+
+  // float y = 2;
+  void clear_y();
+  static const int kYFieldNumber = 2;
+  float y() const;
+  void set_y(float value);
+
+  // float z = 3;
+  void clear_z();
+  static const int kZFieldNumber = 3;
+  float z() const;
+  void set_z(float value);
+
+  // @@protoc_insertion_point(class_scope:proto_User.WarData.Vector3)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  float x_;
+  float y_;
+  float z_;
+  mutable ::google::protobuf::internal::CachedSize _cached_size_;
+  friend struct ::protobuf_User_2eproto::TableStruct;
+};
+// -------------------------------------------------------------------
+
+class WarData_Soilder : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:proto_User.WarData.Soilder) */ {
+ public:
+  WarData_Soilder();
+  virtual ~WarData_Soilder();
+
+  WarData_Soilder(const WarData_Soilder& from);
+
+  inline WarData_Soilder& operator=(const WarData_Soilder& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  WarData_Soilder(WarData_Soilder&& from) noexcept
+    : WarData_Soilder() {
+    *this = ::std::move(from);
+  }
+
+  inline WarData_Soilder& operator=(WarData_Soilder&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const WarData_Soilder& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const WarData_Soilder* internal_default_instance() {
+    return reinterpret_cast<const WarData_Soilder*>(
+               &_WarData_Soilder_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    3;
+
+  void Swap(WarData_Soilder* other);
+  friend void swap(WarData_Soilder& a, WarData_Soilder& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline WarData_Soilder* New() const final {
+    return CreateMaybeMessage<WarData_Soilder>(NULL);
+  }
+
+  WarData_Soilder* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<WarData_Soilder>(arena);
+  }
+  void CopyFrom(const ::google::protobuf::Message& from) final;
+  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CopyFrom(const WarData_Soilder& from);
+  void MergeFrom(const WarData_Soilder& from);
+  void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) final;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const final;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(WarData_Soilder* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // .proto_User.WarData.CampState Camp = 4;
+  void clear_camp();
+  static const int kCampFieldNumber = 4;
+  ::proto_User::WarData_CampState camp() const;
+  void set_camp(::proto_User::WarData_CampState value);
+
+  // int32 attack = 5;
+  void clear_attack();
+  static const int kAttackFieldNumber = 5;
+  ::google::protobuf::int32 attack() const;
+  void set_attack(::google::protobuf::int32 value);
+
+  // @@protoc_insertion_point(class_scope:proto_User.WarData.Soilder)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  int camp_;
+  ::google::protobuf::int32 attack_;
+  mutable ::google::protobuf::internal::CachedSize _cached_size_;
+  friend struct ::protobuf_User_2eproto::TableStruct;
+};
+// -------------------------------------------------------------------
+
+class WarData_Player : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:proto_User.WarData.Player) */ {
+ public:
+  WarData_Player();
+  virtual ~WarData_Player();
+
+  WarData_Player(const WarData_Player& from);
+
+  inline WarData_Player& operator=(const WarData_Player& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  WarData_Player(WarData_Player&& from) noexcept
+    : WarData_Player() {
+    *this = ::std::move(from);
+  }
+
+  inline WarData_Player& operator=(WarData_Player&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const WarData_Player& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const WarData_Player* internal_default_instance() {
+    return reinterpret_cast<const WarData_Player*>(
+               &_WarData_Player_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    4;
+
+  void Swap(WarData_Player* other);
+  friend void swap(WarData_Player& a, WarData_Player& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline WarData_Player* New() const final {
+    return CreateMaybeMessage<WarData_Player>(NULL);
+  }
+
+  WarData_Player* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<WarData_Player>(arena);
+  }
+  void CopyFrom(const ::google::protobuf::Message& from) final;
+  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CopyFrom(const WarData_Player& from);
+  void MergeFrom(const WarData_Player& from);
+  void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) final;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const final;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(WarData_Player* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // .proto_User.WarData.Vector3 Self = 7;
+  bool has_self() const;
+  void clear_self();
+  static const int kSelfFieldNumber = 7;
+  private:
+  const ::proto_User::WarData_Vector3& _internal_self() const;
+  public:
+  const ::proto_User::WarData_Vector3& self() const;
+  ::proto_User::WarData_Vector3* release_self();
+  ::proto_User::WarData_Vector3* mutable_self();
+  void set_allocated_self(::proto_User::WarData_Vector3* self);
+
+  // .proto_User.WarData.Vector3 Forward = 8;
+  bool has_forward() const;
+  void clear_forward();
+  static const int kForwardFieldNumber = 8;
+  private:
+  const ::proto_User::WarData_Vector3& _internal_forward() const;
+  public:
+  const ::proto_User::WarData_Vector3& forward() const;
+  ::proto_User::WarData_Vector3* release_forward();
+  ::proto_User::WarData_Vector3* mutable_forward();
+  void set_allocated_forward(::proto_User::WarData_Vector3* forward);
+
+  // .proto_User.WarData.CampState Camp = 6;
+  void clear_camp();
+  static const int kCampFieldNumber = 6;
+  ::proto_User::WarData_CampState camp() const;
+  void set_camp(::proto_User::WarData_CampState value);
+
+  // @@protoc_insertion_point(class_scope:proto_User.WarData.Player)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::proto_User::WarData_Vector3* self_;
+  ::proto_User::WarData_Vector3* forward_;
+  int camp_;
+  mutable ::google::protobuf::internal::CachedSize _cached_size_;
+  friend struct ::protobuf_User_2eproto::TableStruct;
+};
+// -------------------------------------------------------------------
+
+class WarData : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:proto_User.WarData) */ {
+ public:
+  WarData();
+  virtual ~WarData();
+
+  WarData(const WarData& from);
+
+  inline WarData& operator=(const WarData& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  WarData(WarData&& from) noexcept
+    : WarData() {
+    *this = ::std::move(from);
+  }
+
+  inline WarData& operator=(WarData&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const WarData& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const WarData* internal_default_instance() {
+    return reinterpret_cast<const WarData*>(
+               &_WarData_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    5;
+
+  void Swap(WarData* other);
+  friend void swap(WarData& a, WarData& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline WarData* New() const final {
+    return CreateMaybeMessage<WarData>(NULL);
+  }
+
+  WarData* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<WarData>(arena);
+  }
+  void CopyFrom(const ::google::protobuf::Message& from) final;
+  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CopyFrom(const WarData& from);
+  void MergeFrom(const WarData& from);
+  void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) final;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const final;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(WarData* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  typedef WarData_Vector3 Vector3;
+  typedef WarData_Soilder Soilder;
+  typedef WarData_Player Player;
+
+  typedef WarData_CampState CampState;
+  static const CampState red =
+    WarData_CampState_red;
+  static const CampState blue =
+    WarData_CampState_blue;
+  static inline bool CampState_IsValid(int value) {
+    return WarData_CampState_IsValid(value);
+  }
+  static const CampState CampState_MIN =
+    WarData_CampState_CampState_MIN;
+  static const CampState CampState_MAX =
+    WarData_CampState_CampState_MAX;
+  static const int CampState_ARRAYSIZE =
+    WarData_CampState_CampState_ARRAYSIZE;
+  static inline const ::google::protobuf::EnumDescriptor*
+  CampState_descriptor() {
+    return WarData_CampState_descriptor();
+  }
+  static inline const ::std::string& CampState_Name(CampState value) {
+    return WarData_CampState_Name(value);
+  }
+  static inline bool CampState_Parse(const ::std::string& name,
+      CampState* value) {
+    return WarData_CampState_Parse(name, value);
+  }
+
+  // accessors -------------------------------------------------------
+
+  // @@protoc_insertion_point(class_scope:proto_User.WarData)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   friend struct ::protobuf_User_2eproto::TableStruct;
 };
@@ -632,15 +1152,243 @@ EMbattle::mutable_embattle() {
   return &embattle_;
 }
 
+// -------------------------------------------------------------------
+
+// WarData_Vector3
+
+// float x = 1;
+inline void WarData_Vector3::clear_x() {
+  x_ = 0;
+}
+inline float WarData_Vector3::x() const {
+  // @@protoc_insertion_point(field_get:proto_User.WarData.Vector3.x)
+  return x_;
+}
+inline void WarData_Vector3::set_x(float value) {
+  
+  x_ = value;
+  // @@protoc_insertion_point(field_set:proto_User.WarData.Vector3.x)
+}
+
+// float y = 2;
+inline void WarData_Vector3::clear_y() {
+  y_ = 0;
+}
+inline float WarData_Vector3::y() const {
+  // @@protoc_insertion_point(field_get:proto_User.WarData.Vector3.y)
+  return y_;
+}
+inline void WarData_Vector3::set_y(float value) {
+  
+  y_ = value;
+  // @@protoc_insertion_point(field_set:proto_User.WarData.Vector3.y)
+}
+
+// float z = 3;
+inline void WarData_Vector3::clear_z() {
+  z_ = 0;
+}
+inline float WarData_Vector3::z() const {
+  // @@protoc_insertion_point(field_get:proto_User.WarData.Vector3.z)
+  return z_;
+}
+inline void WarData_Vector3::set_z(float value) {
+  
+  z_ = value;
+  // @@protoc_insertion_point(field_set:proto_User.WarData.Vector3.z)
+}
+
+// -------------------------------------------------------------------
+
+// WarData_Soilder
+
+// .proto_User.WarData.CampState Camp = 4;
+inline void WarData_Soilder::clear_camp() {
+  camp_ = 0;
+}
+inline ::proto_User::WarData_CampState WarData_Soilder::camp() const {
+  // @@protoc_insertion_point(field_get:proto_User.WarData.Soilder.Camp)
+  return static_cast< ::proto_User::WarData_CampState >(camp_);
+}
+inline void WarData_Soilder::set_camp(::proto_User::WarData_CampState value) {
+  
+  camp_ = value;
+  // @@protoc_insertion_point(field_set:proto_User.WarData.Soilder.Camp)
+}
+
+// int32 attack = 5;
+inline void WarData_Soilder::clear_attack() {
+  attack_ = 0;
+}
+inline ::google::protobuf::int32 WarData_Soilder::attack() const {
+  // @@protoc_insertion_point(field_get:proto_User.WarData.Soilder.attack)
+  return attack_;
+}
+inline void WarData_Soilder::set_attack(::google::protobuf::int32 value) {
+  
+  attack_ = value;
+  // @@protoc_insertion_point(field_set:proto_User.WarData.Soilder.attack)
+}
+
+// -------------------------------------------------------------------
+
+// WarData_Player
+
+// .proto_User.WarData.CampState Camp = 6;
+inline void WarData_Player::clear_camp() {
+  camp_ = 0;
+}
+inline ::proto_User::WarData_CampState WarData_Player::camp() const {
+  // @@protoc_insertion_point(field_get:proto_User.WarData.Player.Camp)
+  return static_cast< ::proto_User::WarData_CampState >(camp_);
+}
+inline void WarData_Player::set_camp(::proto_User::WarData_CampState value) {
+  
+  camp_ = value;
+  // @@protoc_insertion_point(field_set:proto_User.WarData.Player.Camp)
+}
+
+// .proto_User.WarData.Vector3 Self = 7;
+inline bool WarData_Player::has_self() const {
+  return this != internal_default_instance() && self_ != NULL;
+}
+inline void WarData_Player::clear_self() {
+  if (GetArenaNoVirtual() == NULL && self_ != NULL) {
+    delete self_;
+  }
+  self_ = NULL;
+}
+inline const ::proto_User::WarData_Vector3& WarData_Player::_internal_self() const {
+  return *self_;
+}
+inline const ::proto_User::WarData_Vector3& WarData_Player::self() const {
+  const ::proto_User::WarData_Vector3* p = self_;
+  // @@protoc_insertion_point(field_get:proto_User.WarData.Player.Self)
+  return p != NULL ? *p : *reinterpret_cast<const ::proto_User::WarData_Vector3*>(
+      &::proto_User::_WarData_Vector3_default_instance_);
+}
+inline ::proto_User::WarData_Vector3* WarData_Player::release_self() {
+  // @@protoc_insertion_point(field_release:proto_User.WarData.Player.Self)
+  
+  ::proto_User::WarData_Vector3* temp = self_;
+  self_ = NULL;
+  return temp;
+}
+inline ::proto_User::WarData_Vector3* WarData_Player::mutable_self() {
+  
+  if (self_ == NULL) {
+    auto* p = CreateMaybeMessage<::proto_User::WarData_Vector3>(GetArenaNoVirtual());
+    self_ = p;
+  }
+  // @@protoc_insertion_point(field_mutable:proto_User.WarData.Player.Self)
+  return self_;
+}
+inline void WarData_Player::set_allocated_self(::proto_User::WarData_Vector3* self) {
+  ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
+  if (message_arena == NULL) {
+    delete self_;
+  }
+  if (self) {
+    ::google::protobuf::Arena* submessage_arena = NULL;
+    if (message_arena != submessage_arena) {
+      self = ::google::protobuf::internal::GetOwnedMessage(
+          message_arena, self, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  self_ = self;
+  // @@protoc_insertion_point(field_set_allocated:proto_User.WarData.Player.Self)
+}
+
+// .proto_User.WarData.Vector3 Forward = 8;
+inline bool WarData_Player::has_forward() const {
+  return this != internal_default_instance() && forward_ != NULL;
+}
+inline void WarData_Player::clear_forward() {
+  if (GetArenaNoVirtual() == NULL && forward_ != NULL) {
+    delete forward_;
+  }
+  forward_ = NULL;
+}
+inline const ::proto_User::WarData_Vector3& WarData_Player::_internal_forward() const {
+  return *forward_;
+}
+inline const ::proto_User::WarData_Vector3& WarData_Player::forward() const {
+  const ::proto_User::WarData_Vector3* p = forward_;
+  // @@protoc_insertion_point(field_get:proto_User.WarData.Player.Forward)
+  return p != NULL ? *p : *reinterpret_cast<const ::proto_User::WarData_Vector3*>(
+      &::proto_User::_WarData_Vector3_default_instance_);
+}
+inline ::proto_User::WarData_Vector3* WarData_Player::release_forward() {
+  // @@protoc_insertion_point(field_release:proto_User.WarData.Player.Forward)
+  
+  ::proto_User::WarData_Vector3* temp = forward_;
+  forward_ = NULL;
+  return temp;
+}
+inline ::proto_User::WarData_Vector3* WarData_Player::mutable_forward() {
+  
+  if (forward_ == NULL) {
+    auto* p = CreateMaybeMessage<::proto_User::WarData_Vector3>(GetArenaNoVirtual());
+    forward_ = p;
+  }
+  // @@protoc_insertion_point(field_mutable:proto_User.WarData.Player.Forward)
+  return forward_;
+}
+inline void WarData_Player::set_allocated_forward(::proto_User::WarData_Vector3* forward) {
+  ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
+  if (message_arena == NULL) {
+    delete forward_;
+  }
+  if (forward) {
+    ::google::protobuf::Arena* submessage_arena = NULL;
+    if (message_arena != submessage_arena) {
+      forward = ::google::protobuf::internal::GetOwnedMessage(
+          message_arena, forward, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  forward_ = forward;
+  // @@protoc_insertion_point(field_set_allocated:proto_User.WarData.Player.Forward)
+}
+
+// -------------------------------------------------------------------
+
+// WarData
+
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 
 // @@protoc_insertion_point(namespace_scope)
 
 }  // namespace proto_User
+
+namespace google {
+namespace protobuf {
+
+template <> struct is_proto_enum< ::proto_User::WarData_CampState> : ::std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::proto_User::WarData_CampState>() {
+  return ::proto_User::WarData_CampState_descriptor();
+}
+
+}  // namespace protobuf
+}  // namespace google
 
 // @@protoc_insertion_point(global_scope)
 
