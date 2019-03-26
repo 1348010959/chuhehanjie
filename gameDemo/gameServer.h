@@ -16,7 +16,8 @@
 #include <pthread.h>
 #include <list>
 #include <queue>
-#include <map>
+//#include <map>
+#include "threadpool.h"
 #include "User.pb.h"
 
 enum RequestType{
@@ -51,12 +52,12 @@ struct OnlineInfo{
 pthread_cond_t cond;
 pthread_mutex_t mutex;
 
-//struct OnlineUser{
-    //std::string user_id;
-    //unsigned int sock_fd;   //在线用户套接字
+struct OnlineUser{
+    std::string user_id;
+    unsigned int sock_fd;   //在线用户套接字
     //std::map<unsigned int, OnlineInfo> online;
-    //bool Isplaying;     //玩家是否正在游戏
-//};
+    bool Isplaying;     //玩家是否正在游戏
+};
 
 struct Args{
     std::map<unsigned int, OnlineInfo> online;

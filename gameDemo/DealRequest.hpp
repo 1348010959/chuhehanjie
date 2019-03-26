@@ -3,21 +3,21 @@
 
 void lengthToByte(unsigned short& len, char buf[])
 {
-        char* ptr = (char*)&len;
-            buf[0] = ptr[0];
-                buf[1] = ptr[1];
-                
+    char* ptr = (char*)&len;
+    buf[0] = ptr[0];
+    buf[1] = ptr[1];
+
 }
 
 void byteToLength(unsigned short& len, char buf[])
 {
-        char* ptr = (char*)&len;
-            ptr[0] = buf[0];
-                ptr[1] = buf[1];
-                
+    char* ptr = (char*)&len;
+    ptr[0] = buf[0];
+    ptr[1] = buf[1];
+
 }
 
-void Sign_in(const UserInfo& user, const int& client_fd)
+void Sign_in(const UserInfo& user, const unsigned int& client_fd)
 {
     char userid[32] = {0};
     char name[32] = {0};
@@ -71,7 +71,7 @@ void Sign_in(const UserInfo& user, const int& client_fd)
     }
 }
 
-void Login(const UserInfo& user, const int& client_fd, std::map<unsigned int, OnlineInfo>& online)
+void Login(const UserInfo& user, const unsigned int& client_fd, std::list<OnlineUser>& online)
 {
     char userid[32] = {0};
     char password[32] = {0}; 
@@ -81,7 +81,11 @@ void Login(const UserInfo& user, const int& client_fd, std::map<unsigned int, On
     pipe(input);
     pipe(output);
 
-    OnlineInfo tmp;
+    /*OnlineInfo tmp;
+      tmp.user_id = user.user_id;
+      tmp.Isplaying = false;*/
+    OnlineUser tmp;
+    tmp.sock_fd = client_fd;
     tmp.user_id = user.user_id;
     tmp.Isplaying = false;
 
@@ -140,35 +144,37 @@ void Login(const UserInfo& user, const int& client_fd, std::map<unsigned int, On
             msg[1] = lenbuf[0];
             msg[2] = lenbuf[1];
             strcpy(msg+3, serial.c_str());
-            online.insert(std::pair<unsigned int, OnlineInfo> (client_fd, tmp));
-            std::cout << online.size() << std::endl;
+            //online.insert(std::make_pair(client_fd, tmp));
+            online.push_back(tmp);
+            std::cout << "online size" << online.size() << std::endl;
+            //std::cout << online[client_fd].user_id << std::endl;
         }else{
             printf("It's is failed\n");
             msg[0] = LOGINFAIL;
         }
-        printf("sql:%s\n", buf);
-        printf("msg:%s\n", msg+1);
+        //printf("sql:%s\n", buf);
+        printf("msg:%s\n", msg+3);
         write(client_fd, msg, sizeof(msg)-1);
     }
 }
 
-void Embattle(EMbattle& em, const unsigned int& client_fd, std::map<unsigned int, OnlineInfo>& online)
+void Embattle(EMbattle& em, const unsigned int& client_fd, std::list<OnlineUser>& online)//std::map<unsigned int, OnlineInfo>& online)
 {
     char Tag[128] = {0};
     char Id[32] = {0};
     int input[2];
     int output[2];
-    /*std::list<OnlineUser>::iterator it = online.begin();
-      bool flag = false;
-      while(it != online.end())
-      {
-      if((*it).sock_fd == client_fd)
-      {
-      flag = true;
-      break;
-      }
-      it++;
-      }*/
+    std::list<OnlineUser>::iterator it = online.begin();
+    bool flag = false;
+    while(it != online.end())
+    {
+        if((*it).sock_fd == client_fd)
+        {
+            flag = true;
+            break;
+        }
+        it++;
+    }
     /*if(!flag)
       {
       std::cout << "Not online User, error!!" << std::endl;
@@ -186,10 +192,11 @@ void Embattle(EMbattle& em, const unsigned int& client_fd, std::map<unsigned int
         //std::cout << tag.size() << std::endl;
     }
 
-    //if(flag)                                                                                                                                              
+    if(flag)                                                                                                                                              
     {
         std::cout << "Args Success" << std::endl;
-        sprintf(Id, "USERID=%s", online[client_fd].user_id.c_str());
+        std::cout << "userid : " << (*it).user_id << std::endl;
+        sprintf(Id, "USERID=%s", (*it).user_id.c_str());//online[client_fd].user_id.c_str());
         putenv(Id);
         sprintf(Tag, "TAG=%s", tag.c_str());
         putenv(Tag);
@@ -241,84 +248,180 @@ void Embattle(EMbattle& em, const unsigned int& client_fd, std::map<unsigned int
     }
 }
 
-static bool StartGame(unsigned int playfdA, unsigned int playfdB)
+void* StartGameA(void* fd)
 {
+    unsigned int playfdA = *(unsigned int*)fd;
+    unsigned int playfdB = *((unsigned int*)fd+1);
     char recvbufA[256] = {0};
-    char recvbufB[256] = {0};
-    unsigned short size = 0;
-    char lenbuf[2] = {0};
-    bool flagA, flagB;
+    //char sendbufA[256] = {0};
+    //char recvbufB[256] = {0};
+    //char sendbufB[256] = {0};
+    //unsigned short size = 0;
+    //char lenbuf[2] = {0};
+    bool flagA;
     flagA = false;
-    flagB = false;
     for( ; ;){
         ssize_t n = read(playfdA, recvbufA, sizeof(recvbufA)-1);
         if( n < 0 ){
             std::cerr << "read playfdA" << std::endl;
             continue;
         }
-        if(write(playfdB, recvbufA, n)){
-            std::cerr << "write playfdB" << std::endl;
-            continue;
+        std::cout << "read playfdA size #" << n << std::endl;
+        if( n > 0 ){
+            if(write(playfdB, recvbufA, n) < 0){
+                std::cerr << "write playfdB" << std::endl;
+            }
+            if(write(playfdA, recvbufA, n) < 0)
+            {
+                std::cerr << "write playfdA" << std::endl;
+            }
+            std::cout << "write A and B success" << std::endl;
         }
         if(recvbufA[0] == GAMEOVER)
         {
             flagA = true;
+            //flagB =  true;
         }
         memset(recvbufA, 0, sizeof(recvbufA)-1);
-        n = read(playfdB, recvbufB, sizeof(recvbufB)-1);
+        /*n = read(playfdB, recvbufB, sizeof(recvbufB)-1);
+          std::cout << "read playfdB size #" << n << std::endl;
+          if( n < 0  ){
+          std::cerr << "read playfdB" << std::endl;
+          continue;
+          }
+          if( n > 0 ){
+          if(write(playfdA, recvbufB, n) < 0)
+          {
+          std::cerr << "write playfdA" << std::endl;
+          }
+          if(write(playfdA, recvbufB, n) < 0)
+          {
+          std::cerr << "write playfdA" << std::endl;
+          }
+
+          std::cout << "write A and B success" << std::endl;
+          }
+          if(recvbufB[0] == GAMEOVER)
+          {
+          flagB = true;
+          }
+          memset(recvbufB, 0, sizeof(recvbufA)-1);*/
+        if(flagA)
+            break;
+    }
+    //return true;
+    return NULL;
+}
+
+void* StartGameB(void* fd)
+{
+    unsigned int playfdA = *(unsigned int*)fd;
+    unsigned int playfdB = *((unsigned int*)fd+1);
+    char recvbuf[256] = {0};
+    bool flagA;                                                                                                 
+    flagA = false;
+    for( ; ; ){ 
+        ssize_t n = read(playfdB, recvbuf, sizeof(recvbuf)-1);
         if( n < 0  ){
             std::cerr << "read playfdB" << std::endl;
             continue;
 
-        }
-        if(write(playfdA, recvbufB, n))
-        {
-            std::cerr << "write playfdA" << std::endl;
-        }
-        if(recvbufB[0] == GAMEOVER)
-        {
-            flagB = true;
-        }
-        memset(recvbufB, 0, sizeof(recvbufA)-1);
-        if(flagA && flagB)
+        }      
+        std::cout << "read playfdA size #" << n << std::endl;
+        if( n > 0  ){
+            if(write(playfdB, recvbuf, n) < 0){
+                std::cerr << "write playfdB" << std::endl;
+
+            }  
+            if(write(playfdA, recvbuf, n) < 0)
+            {  
+                std::cerr << "write playfdB" << std::endl;
+
+            }  
+            std::cout << "write A and B success" << std::endl;
+
+        }      
+        if(recvbuf[0] == GAMEOVER)
+        {      
+            flagA = true;
+            //flagB =  true;
+
+        }      
+        memset(recvbuf, 0, sizeof(recvbuf)-1);
+        if(flagA)
             break;
     }
-    return true;
+    return NULL;
 }
 
-void* Match(void* parg)
+
+void Match(std::list<OnlineUser>&online, std::queue<unsigned int>& MatchQueue, const unsigned int& client_fd, threadpool_t* pool)
 {
-    //std::list<OnlineUser>::iterator it = online.begin();
-    /*for( ; it != online.end(); ++it )
-      {
-      if( (*it).sock_fd == client_fd ){
-      MatchQueue.push(*it);
-      }
-      }*/
-    Args* ptr = (Args*)parg;
-    pthread_mutex_lock(&mutex);
-    ptr->MatchQueue.push(ptr->client_fd);
-    if(ptr->MatchQueue.size() % 2 == 0)
+    std::list<OnlineUser>::iterator it = online.begin();
+    for( ; it != online.end(); ++it )
     {
-        //pthread_cond_signal(&cond);
-        char msg[8] = {0};
-        unsigned int playfdA = ptr->MatchQueue.front();
-        msg[0] = RED;
-        write(playfdA, msg, 1);
-        ptr->online[playfdA].Isplaying = true;
-        ptr->MatchQueue.pop();
-        unsigned int playfdB = ptr->MatchQueue.front();
-        msg[0] = BLUE;
-        write(playfdA, msg, 1);
-        ptr->online[playfdB].Isplaying = true;
-        ptr->MatchQueue.pop();
-        bool play = StartGame(playfdA, playfdB);
-        if(play){
-            ptr->online[playfdA].Isplaying = false;
-            ptr->online[playfdB].Isplaying = false;
+        if( (*it).sock_fd == client_fd ){
+            MatchQueue.push(it->sock_fd);
         }
     }
+    if(MatchQueue.size() >= 2)
+    {
+        char msg[8] = {0};
+        unsigned int playfdA = MatchQueue.front();
+        msg[0] = RED;
+        write(playfdA, msg, 1);
+        MatchQueue.pop();
+        unsigned int playfdB = MatchQueue.front();
+        msg[0] = BLUE;
+        write(playfdB, msg, 1);
+        MatchQueue.pop();
+        it = online.begin();
+        int count = 0;
+        for( ; it != online.end(); ++it )
+        {
+            if( (*it).sock_fd == playfdA  ){
+                it->Isplaying = true;
+                count++;
+            }
+            if( (*it).sock_fd == playfdB ){
+                it->Isplaying = true;
+                count++;
+            }
+            if(count == 2)
+                break;
+        }
+        unsigned int fd[2] = {playfdA, playfdB};
+        thread_add_task(pool, StartGameA, fd);
+        thread_add_task(pool, StartGameB, fd);
+    }
+
+    //Args* ptr = (Args*)parg;
+    /*pthread_mutex_lock(&mutex);
+      ptr->MatchQueue.push(ptr->client_fd);
+      std::cout << ptr->MatchQueue.size() << std::endl;
+      pthread_mutex_unlock(&mutex);*/
+    /*if(ptr->MatchQueue.size() >= 2)
+      {
+    //pthread_cond_signal(&cond);
+    char msg[8] = {0};
+    unsigned int playfdA = ptr->MatchQueue.front();
+    pthread_mutex_lock(&mutex);
+    msg[0] = RED;
+    write(playfdA, msg, 1);
+    ptr->online[playfdA].Isplaying = true;
+    ptr->MatchQueue.pop();
+    unsigned int playfdB = ptr->MatchQueue.front();
+    msg[0] = BLUE;
+    write(playfdB, msg, 1);
+    ptr->online[playfdB].Isplaying = true;
+    ptr->MatchQueue.pop();
+    bool play = StartGame(playfdA, playfdB);
+    if(play){
+    ptr->online[playfdA].Isplaying = false;
+    ptr->online[playfdB].Isplaying = false;
+    }
     pthread_mutex_unlock(&mutex);
+    }*/
     //ptr->MatchQueue.push(ptr->online[ptr->client_fd]);
     //int player_fd = ptr->client_fd;
     //unsigned int size = ptr->MatchQueue.size();
@@ -328,8 +431,5 @@ void* Match(void* parg)
       break;
       }
       }*/
-
-    delete ptr;
-    return NULL;
 }
 

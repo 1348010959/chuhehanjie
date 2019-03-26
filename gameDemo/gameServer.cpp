@@ -1,7 +1,6 @@
 #include "gameServer.h"
 #include "getValue.hpp"
 #include "DealRequest.hpp"
-#include "threadpool.h"
 
 static int startup(const int port)
 {
@@ -53,22 +52,36 @@ void ProcessConnect(const int& listen_sock, int& epoll_fd)
     }
 }
 
-void ProcessRequest(const unsigned int connect_fd, const unsigned int epoll_fd, std::map<unsigned int, OnlineInfo>& online,std::queue<unsigned int> &MatchQueue, threadpool_t* pool)
+void ProcessRequest(const unsigned int& connect_fd, const unsigned int& epoll_fd, std::list<OnlineUser>& online,std::queue<unsigned int> &MatchQueue, threadpool_t* pool)
 {
+    /*if(online[connect_fd].Isplaying)
+      return;*/
+    std::list<OnlineUser>::iterator it = online.begin();
+    int flag = false;
+    while(it != online.end())
+    {
+        if((*it).sock_fd == connect_fd)
+        {
+            break;
+            flag = true;
+        }
+        it++; 
+    }
+    if(it->Isplaying)
+        return;
     char buf[1024] = {0};
     ssize_t read_size = read(connect_fd, buf,sizeof(buf)-1);
+
     if(read_size < 0){
-        std::cerr << "epoll_ctl" << std::endl;
+        std::cerr << "read err" << std::endl;
         return;
     }else if(read_size == 0){
         close(connect_fd);
         epoll_ctl(epoll_fd, EPOLL_CTL_DEL, connect_fd, NULL);
-        //std::list<OnlineUser>::iterator it = online.begin();
-        //int flag = false;
-        std::map<unsigned int, OnlineInfo>::iterator it;
-        it = online.find(connect_fd);
-        online.erase(it);
-        /*while(it != online.end())
+        /*std::map<unsigned int, OnlineInfo>::iterator it;
+          it = online.find(connect_fd);
+          online.erase(it);*/
+        while(it != online.end())
         {
             if((*it).sock_fd == connect_fd)
             {
@@ -80,7 +93,7 @@ void ProcessRequest(const unsigned int connect_fd, const unsigned int epoll_fd, 
         if(flag)
         {
             online.erase(it);
-        }*/
+        }
         std::cout << "online user size:" << online.size() << std::endl;
         std::cout << "client quit" << std::endl;
         return;
@@ -88,15 +101,15 @@ void ProcessRequest(const unsigned int connect_fd, const unsigned int epoll_fd, 
     std::string serialized = buf+3;
     UserInfo user;
     EMbattle em;
-    if(buf[0] == START)
-    {
-        std::cout << "START" << std::endl;
-        Args* parg = new Args;
-        parg->online = online;
-        parg->MatchQueue = MatchQueue;
-        parg->client_fd = connect_fd;
-        thread_add_task(pool, Match, parg);
-    }
+    /*if(buf[0] == START)
+      {
+      std::cout << "START" << std::endl;
+      Args* parg = new Args;
+      parg->online = online;
+      parg->MatchQueue = MatchQueue;
+      parg->client_fd = connect_fd;
+      thread_add_task(pool, Match, parg);
+      }*/
     switch(buf[0]){
     case SIGN_IN:
         std::cout << "SIGN_IN" << std::endl;
@@ -109,11 +122,21 @@ void ProcessRequest(const unsigned int connect_fd, const unsigned int epoll_fd, 
         Login(user, connect_fd, online);
         break;
     case START:
-        //Match(online, MatchQueue, connect_fd);
+        std::cout << "START" << std::endl;
+        //if(buf[0] == START)
+        /*{   
+          Args* parg = new Args;
+          parg->online = online;
+          parg->MatchQueue = MatchQueue;
+          parg->client_fd = connect_fd;
+        //thread_add_task(pool, Match, parg);
+        }*/
+        Match(online, MatchQueue, connect_fd, pool);
         break;
     case EMBATTLE:
         std::cout << "EMBATTLE" << std::endl;
         getEmbattle(serialized, em);
+        //std::cout << "Test user id" << online[connect_fd].user_id << std::endl;
         Embattle(em, connect_fd, online);
         break;
     default:
@@ -129,8 +152,8 @@ int main(int argc, char* argv[])
         std::cerr << "Usage ./gameServer [port]" << std::endl;
         return 1;
     }
-    //std::list<OnlineUser> online;
-    std::map<unsigned int, OnlineInfo> online;
+    std::list<OnlineUser> online;
+    //std::map<unsigned int, OnlineInfo> online;
     std::queue<unsigned int> MatchQueue;
     threadpool_t pool;
 
