@@ -34,8 +34,13 @@ enum RequestType{
     EMBATTLE = 18,      //布阵
     PLAYDATA = 19,  //游戏中玩家数据
     SOILDERDATA = 20, //游戏中士兵数据
-    RED = 21,
-    BLUE = 22
+    BULLETDATA = 21,
+    RED = 98,
+    BLUE = 99,
+
+    READY = 50,  //出兵消息
+    NEWROUND = 51,
+    ENEMY = 52  //对端数据
 };
 
 struct UserInfo{
@@ -60,9 +65,10 @@ struct OnlineUser{
 };
 
 struct Args{
-    std::map<unsigned int, OnlineInfo> online;
-    std::queue<unsigned int> MatchQueue;
-    unsigned int client_fd;
+    //std::map<unsigned int, OnlineInfo> online;
+    //std::queue<unsigned int> MatchQueue;
+    unsigned int client_fd[2];
+    std::list<OnlineUser>* online;
 };
 
 struct EMbattle{

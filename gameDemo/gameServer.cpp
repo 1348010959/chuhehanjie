@@ -56,6 +56,7 @@ void ProcessRequest(const unsigned int& connect_fd, const unsigned int& epoll_fd
 {
     /*if(online[connect_fd].Isplaying)
       return;*/
+    pthread_mutex_lock(&mutex);
     std::list<OnlineUser>::iterator it = online.begin();
     int flag = false;
     while(it != online.end())
@@ -69,6 +70,7 @@ void ProcessRequest(const unsigned int& connect_fd, const unsigned int& epoll_fd
     }
     if(it->Isplaying)
         return;
+    pthread_mutex_unlock(&mutex);
     char buf[1024] = {0};
     ssize_t read_size = read(connect_fd, buf,sizeof(buf)-1);
 
@@ -81,6 +83,7 @@ void ProcessRequest(const unsigned int& connect_fd, const unsigned int& epoll_fd
         /*std::map<unsigned int, OnlineInfo>::iterator it;
           it = online.find(connect_fd);
           online.erase(it);*/
+        pthread_mutex_lock(&mutex);
         while(it != online.end())
         {
             if((*it).sock_fd == connect_fd)
@@ -94,6 +97,7 @@ void ProcessRequest(const unsigned int& connect_fd, const unsigned int& epoll_fd
         {
             online.erase(it);
         }
+        pthread_mutex_unlock(&mutex);
         std::cout << "online user size:" << online.size() << std::endl;
         std::cout << "client quit" << std::endl;
         return;
