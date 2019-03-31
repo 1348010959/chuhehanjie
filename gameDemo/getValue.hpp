@@ -1,6 +1,7 @@
 #include "gameServer.h"
 void getUser(const std::string& serialized, UserInfo& user)
 {
+    std::cout << "进入getUser函数" << std::endl;
     proto_User::User deserial;
     if(!deserial.ParseFromString(serialized))
     {

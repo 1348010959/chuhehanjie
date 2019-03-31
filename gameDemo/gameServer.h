@@ -67,7 +67,7 @@ struct OnlineUser{
 struct Args{
     //std::map<unsigned int, OnlineInfo> online;
     //std::queue<unsigned int> MatchQueue;
-    unsigned int client_fd[2];
+    unsigned int client_fd[3];
     std::list<OnlineUser>* online;
 };
 

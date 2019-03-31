@@ -56,34 +56,12 @@ void ProcessRequest(const unsigned int& connect_fd, const unsigned int& epoll_fd
 {
     /*if(online[connect_fd].Isplaying)
       return;*/
-    pthread_mutex_lock(&mutex);
     std::list<OnlineUser>::iterator it = online.begin();
     int flag = false;
-    while(it != online.end())
+    if(online.size() > 0)
     {
-        if((*it).sock_fd == connect_fd)
-        {
-            break;
+        if(online.size() == 1 && it->sock_fd == connect_fd)
             flag = true;
-        }
-        it++; 
-    }
-    if(it->Isplaying)
-        return;
-    pthread_mutex_unlock(&mutex);
-    char buf[1024] = {0};
-    ssize_t read_size = read(connect_fd, buf,sizeof(buf)-1);
-
-    if(read_size < 0){
-        std::cerr << "read err" << std::endl;
-        return;
-    }else if(read_size == 0){
-        close(connect_fd);
-        epoll_ctl(epoll_fd, EPOLL_CTL_DEL, connect_fd, NULL);
-        /*std::map<unsigned int, OnlineInfo>::iterator it;
-          it = online.find(connect_fd);
-          online.erase(it);*/
-        pthread_mutex_lock(&mutex);
         while(it != online.end())
         {
             if((*it).sock_fd == connect_fd)
@@ -93,11 +71,27 @@ void ProcessRequest(const unsigned int& connect_fd, const unsigned int& epoll_fd
             }
             it++; 
         }
+        if(flag && it->Isplaying)
+            return;
+    }
+    char buf[1024] = {0};
+    ssize_t read_size = read(connect_fd, buf,sizeof(buf)-1);
+
+    if(read_size < 0){
+        std::cerr << "read err" << std::endl;
+        return;
+    }else if(read_size == 0){
+        /*std::map<unsigned int, OnlineInfo>::iterator it;
+          it = online.find(connect_fd);
+          online.erase(it);*/
         if(flag)
         {
+            //pthread_mutex_lock(&mutex);
             online.erase(it);
+            //pthread_mutex_unlock(&mutex);
         }
-        pthread_mutex_unlock(&mutex);
+        close(connect_fd);
+        epoll_ctl(epoll_fd, EPOLL_CTL_DEL, connect_fd, NULL);
         std::cout << "online user size:" << online.size() << std::endl;
         std::cout << "client quit" << std::endl;
         return;
@@ -123,6 +117,7 @@ void ProcessRequest(const unsigned int& connect_fd, const unsigned int& epoll_fd
     case LOGIN:
         std::cout << "Login" << std::endl;
         getUser(serialized, user);
+        std::cout << "进入Login函数前" << std::endl;
         Login(user, connect_fd, online);
         break;
     case START:
@@ -135,7 +130,7 @@ void ProcessRequest(const unsigned int& connect_fd, const unsigned int& epoll_fd
           parg->client_fd = connect_fd;
         //thread_add_task(pool, Match, parg);
         }*/
-        Match(online, MatchQueue, connect_fd, pool);
+        Match(online, MatchQueue, connect_fd, pool, epoll_fd);
         break;
     case EMBATTLE:
         std::cout << "EMBATTLE" << std::endl;
@@ -161,11 +156,14 @@ int main(int argc, char* argv[])
     std::queue<unsigned int> MatchQueue;
     threadpool_t pool;
 
-    pthread_cond_init(&cond, NULL);
     pthread_mutex_init(&mutex, NULL);
+    pthread_cond_init(&cond, NULL);
     threadpool_init(&pool, 10);
 
     int listen_sock = startup(atoi(argv[1]));
+    if(listen_sock < 0 ){
+        std::cerr << "startup" << std::endl;
+    }
 
     int epoll_fd = epoll_create(10);
     if(epoll_fd < 0)
@@ -209,8 +207,8 @@ int main(int argc, char* argv[])
         }
     }
     threadpool_destroy(&pool);
-    pthread_mutex_destroy(&mutex);
     pthread_cond_destroy(&cond);
+    pthread_mutex_destroy(&mutex);
     google::protobuf::ShutdownProtobufLibrary();
     return 0;    
 }
