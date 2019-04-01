@@ -289,12 +289,12 @@ void* StartGameA(void* fd)
     const unsigned int playfdB = arg.client_fd[1];
     const unsigned int epoll_fd = arg.client_fd[2];
 
-    char recvbufA[256] = {0};
-    ssize_t temp = read(playfdA, recvbufA, sizeof(recvbufA)-1);
-    if(temp >0 && recvbufA[0] == ENEMY)
+    char recvbuf[256] = {0};
+    ssize_t temp = read(playfdA, recvbuf, sizeof(recvbuf)-1);
+    if(temp >0 && recvbuf[0] == ENEMY)
     {
         std::cout << "send enemy EMbattle" << std::endl;
-        write(playfdB, recvbufA, temp);
+        write(playfdB, recvbuf, temp);
     }else if(temp == 0){
         std::list<OnlineUser>::iterator it = (*(arg.online)).begin();
         for( ; it != (*(arg.online)).end(); ++it    )
@@ -315,15 +315,14 @@ void* StartGameA(void* fd)
         fd = NULL;
         return NULL;
     }
-    //memset(recvbufA, 0, sizeof(recvbufA)-1);
+    memset(recvbuf, 0, sizeof(recvbuf)-1);
     //char sendbufA[256] = {0};
     //char recvbufB[256] = {0};
     //char sendbufB[256] = {0};
     //unsigned short size = 0;
     //char lenbuf[2] = {0};
-    char* ptr = new char[256];
     for( ; ;){
-        ssize_t n = read(playfdA, ptr, 256);
+        ssize_t n = read(playfdA, recvbuf, 256);
         if( n < 0 ){
             std::cerr << "read playfdA" << std::endl;
             continue;
@@ -332,7 +331,7 @@ void* StartGameA(void* fd)
         bool troop, broadcast;
         if(n > 0)
         {
-            if(ptr[0] == READY){
+            if(recvbuf[0] == READY){
                 std::cout << "A 请求出兵" << std::endl;
                 troop = true;
                 broadcast = false;
@@ -340,7 +339,7 @@ void* StartGameA(void* fd)
                 broadcast = true;
                 troop = false;
             }
-            Broadcast(playfdA, playfdB, troop, broadcast, ptr, n);
+            Broadcast(playfdA, playfdB, troop, broadcast, recvbuf, n);
         }
         /*if( n > 0 ){
           pthread_mutex_lock(&mutex);
@@ -354,7 +353,7 @@ void* StartGameA(void* fd)
           pthread_mutex_unlock(&mutex);
           std::cout << "write A and B success" << std::endl;
           }*/
-        if(n == 0 || ptr[0] == GAMEOVER){
+        if(n == 0 || recvbuf[0] == GAMEOVER){
             //pthread_mutex_lock(&mutex);
             std::list<OnlineUser>::iterator it = (*(arg.online)).begin();
             for( ; it != (*(arg.online)).end(); ++it   )
@@ -400,8 +399,6 @@ void* StartGameA(void* fd)
       }
       memset(recvbufB, 0, sizeof(recvbufA)-1);*/
     //return true;
-    delete[] ptr;
-    ptr = NULL;
     delete (Args*)fd;
     fd = NULL;
     return NULL;
@@ -435,14 +432,12 @@ void* StartGameB(void* fd)
                 break;
             }
         }
-        delete (Args*)fd;
-        fd = NULL;
         return NULL;
     }
 
-    char* ptr = new char[256];
+    memset(recvbuf, 0, 256);
     for( ; ; ){ 
-        ssize_t n = read(playfdB, ptr, 256);
+        ssize_t n = read(playfdB, recvbuf, 256);
         if( n < 0  ){
             std::cerr << "read playfdB" << std::endl;
             continue;
@@ -451,7 +446,7 @@ void* StartGameB(void* fd)
         bool troop, broadcast;
 
         if( n > 0 ){
-            if(ptr[0] == READY){
+            if(recvbuf[0] == READY){
                 std::cout << "B 请求出兵" << std::endl;
                 troop = true;
                 broadcast = false;
@@ -459,7 +454,7 @@ void* StartGameB(void* fd)
                 broadcast = true;
                 troop = false;
             }
-            Broadcast(playfdA, playfdB, troop, broadcast, ptr, n);
+            Broadcast(playfdA, playfdB, troop, broadcast, recvbuf, n);
         }
         /*if( n > 0  ){
           pthread_mutex_lock(&mutex);
@@ -475,7 +470,7 @@ void* StartGameB(void* fd)
           std::cout << "write A and B success" << std::endl;
           }*/      
         std::cout << "判断n值：" << n << std::endl;
-        if((n == 0) || (ptr[0] == GAMEOVER)){
+        if((n == 0) || (recvbuf[0] == GAMEOVER)){
             //pthread_mutex_lock(&mutex);
             std::list<OnlineUser>::iterator it = (*(arg.online)).begin();
             for( ; it != (*(arg.online)).end(); ++it  )
@@ -498,10 +493,6 @@ void* StartGameB(void* fd)
             break;
         }
     }
-    delete[] ptr;
-    ptr = NULL;
-    delete (Args*)fd;
-    fd = NULL;
     return NULL;
 }
 
