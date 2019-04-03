@@ -35,8 +35,13 @@ enum RequestType{
     PLAYDATA = 19,  //游戏中玩家数据
     SOILDERDATA = 20, //游戏中士兵数据
     BULLETDATA = 21,
-    RED = 98,
-    BLUE = 99,
+
+    REDWIN = 95,    //红方胜利
+    BLUEWIN = 96,   //蓝方胜利
+    NONEWIN = 97,   //平局
+    RED = 98,       //红方阵营
+    BLUE = 99,      //蓝方阵营
+
 
     READY = 50,  //出兵消息
     NEWROUND = 51,

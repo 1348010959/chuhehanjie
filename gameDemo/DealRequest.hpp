@@ -353,7 +353,7 @@ void* StartGameA(void* fd)
           pthread_mutex_unlock(&mutex);
           std::cout << "write A and B success" << std::endl;
           }*/
-        if(n == 0 || recvbuf[0] == GAMEOVER){
+        if(n == 0 || recvbuf[0] == REDWIN || recvbuf[0] == BLUEWIN || recvbuf[0] == NONEWIN){
             //pthread_mutex_lock(&mutex);
             std::list<OnlineUser>::iterator it = (*(arg.online)).begin();
             for( ; it != (*(arg.online)).end(); ++it   )
@@ -370,6 +370,11 @@ void* StartGameA(void* fd)
                 std::cout << "A client quit" << std::endl;                                                                                     
                 std::cout << "OnlineUser :" << (*(arg.online)).size() << std::endl;
                 //pthread_mutex_unlock(&mutex);              
+            }else{
+                recvbuf[0] = GAMEOVER;
+                broadcast = false;
+                troop = true;
+                Broadcast(playfdA, playfdB, troop, broadcast, recvbuf, n);
             }
             //pthread_mutex_unlock(&mutex);
             break;
@@ -469,8 +474,7 @@ void* StartGameB(void* fd)
           pthread_mutex_unlock(&mutex);
           std::cout << "write A and B success" << std::endl;
           }*/      
-        std::cout << "判断n值：" << n << std::endl;
-        if((n == 0) || (recvbuf[0] == GAMEOVER)){
+        if(n == 0 || recvbuf[0] == REDWIN || recvbuf[0] == BLUEWIN || recvbuf[0] == NONEWIN){
             //pthread_mutex_lock(&mutex);
             std::list<OnlineUser>::iterator it = (*(arg.online)).begin();
             for( ; it != (*(arg.online)).end(); ++it  )
@@ -488,6 +492,11 @@ void* StartGameB(void* fd)
                 std::cout << "B client quit" << std::endl;
                 std::cout << "OnlineUser :" << (*(arg.online)).size() << std::endl;
                 //pthread_mutex_unlock(&mutex);
+            }else{
+                recvbuf[0] = GAMEOVER;
+                broadcast = false;
+                troop = true;
+                Broadcast(playfdA, playfdB, troop, broadcast, recvbuf, n);
             }
             //pthread_mutex_unlock(&mutex);
             break;
