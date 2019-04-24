@@ -6,7 +6,6 @@ void lengthToByte(unsigned short& len, char buf[])
     char* ptr = (char*)&len;
     buf[0] = ptr[0];
     buf[1] = ptr[1];
-
 }
 
 void byteToLength(unsigned short& len, char buf[])
@@ -142,6 +141,7 @@ void Login(const UserInfo& user, const unsigned int& client_fd, std::list<Online
             Em.SerializeToString(&serial);
             unsigned short len = serial.size();
             char lenbuf[2] = {0};
+            len += 3;
             lengthToByte(len, lenbuf);
             msg[1] = lenbuf[0];
             msg[2] = lenbuf[1];
@@ -259,7 +259,7 @@ void Broadcast(const unsigned int& playfdA, const unsigned int& playfdB, const b
     if(troop){
         IsReady[playfdA%61]++;
         //count++;
-        std::cout << "IsReady:" << (int)IsReady[playfdA%61] <<"broadcast :" << broadcast <<std::endl;
+        std::cout << "IsReady: " << (int)IsReady[playfdA%61] <<" broadcast :" << broadcast <<std::endl;
     }
     if(IsReady[playfdA%61] == 2){//(count == 2){ //&& IsReady[playfdA%61] == 2){
         broadcast = true;
@@ -269,17 +269,17 @@ void Broadcast(const unsigned int& playfdA, const unsigned int& playfdB, const b
     }
     if(broadcast){
         if(write(playfdB, buf, n) < 0){
-            std::cerr << "write playfdB" << std::endl;
+            std::cerr << "write playfdB fail" << std::endl;
         }
         if(write(playfdA, buf, n) < 0)
         {
-            std::cerr << "write playfdA" << std::endl;
+            std::cerr << "write playfdA fail" << std::endl;
         }
         std::cout << "write A and B success" << std::endl;
     }else{
         std::cout << "write A and B fail" << std::endl;
     }
-    memset(buf, 0, 256);
+    memset(buf, 0, n);
 }
 
 void* StartGameA(void* fd)
@@ -289,7 +289,7 @@ void* StartGameA(void* fd)
     const unsigned int playfdB = arg.client_fd[1];
     const unsigned int epoll_fd = arg.client_fd[2];
 
-    char recvbuf[256] = {0};
+    char recvbuf[1024] = {0};
     ssize_t temp = read(playfdA, recvbuf, sizeof(recvbuf)-1);
     if(temp >0 && recvbuf[0] == ENEMY)
     {
@@ -299,7 +299,7 @@ void* StartGameA(void* fd)
         std::list<OnlineUser>::iterator it = (*(arg.online)).begin();
         for( ; it != (*(arg.online)).end(); ++it    )
         {   
-            if( (*it).sock_fd == playfdA    ){
+            if( (*it).sock_fd == playfdA ){
                 (*it).Isplaying = false;
                 close(playfdA);
                 //pthread_mutex_lock(&mutex);
@@ -319,19 +319,22 @@ void* StartGameA(void* fd)
     //char sendbufA[256] = {0};
     //char recvbufB[256] = {0};
     //char sendbufB[256] = {0};
-    //unsigned short size = 0;
-    //char lenbuf[2] = {0};
+    char MsgHead[3] = {0};
     for( ; ;){
-        ssize_t n = read(playfdA, recvbuf, 256);
+        ssize_t n = read(playfdA, MsgHead, 3);
+        unsigned short size = 0;
+        char lenbuf[2] = {0};
         if( n < 0 ){
             std::cerr << "read playfdA" << std::endl;
             continue;
         }
-        std::cout << "read playfdA size #" << n << std::endl;
         bool troop, broadcast;
         if(n > 0)
         {
-            if(recvbuf[0] == READY){
+            lenbuf[0] = MsgHead[1];
+            lenbuf[1] = MsgHead[2];
+            byteToLength(size, lenbuf);
+            if(MsgHead[0] == READY){
                 std::cout << "A 请求出兵" << std::endl;
                 troop = true;
                 broadcast = false;
@@ -339,7 +342,18 @@ void* StartGameA(void* fd)
                 broadcast = true;
                 troop = false;
             }
-            Broadcast(playfdA, playfdB, troop, broadcast, recvbuf, n);
+            std::cout << "报头read playfdA size #" << size << " n #" << n << std::endl;
+            if(size == 3){
+                Broadcast(playfdA, playfdB, troop, broadcast, MsgHead, n);
+            }
+            else if( size > 3 ){
+                n = read(playfdA, recvbuf + 3, size - 3);
+                recvbuf[0] = MsgHead[0];
+                recvbuf[1] = MsgHead[1];
+                recvbuf[2] = MsgHead[2];
+                std::cout << "包体read playfdA size #" << size << " n #" << n << std::endl;
+                Broadcast(playfdA, playfdB, troop, broadcast, recvbuf, n + 3);
+            }
         }
         /*if( n > 0 ){
           pthread_mutex_lock(&mutex);
@@ -371,10 +385,10 @@ void* StartGameA(void* fd)
                 std::cout << "OnlineUser :" << (*(arg.online)).size() << std::endl;
                 //pthread_mutex_unlock(&mutex);              
             }else{
-                recvbuf[0] = GAMEOVER;
-                broadcast = false;
+                MsgHead[0] = GAMEOVER;
+                broadcast = true;
                 troop = true;
-                Broadcast(playfdA, playfdB, troop, broadcast, recvbuf, n);
+                Broadcast(playfdA, playfdB, troop, broadcast, MsgHead, n);
             }
             //pthread_mutex_unlock(&mutex);
             break;
@@ -415,7 +429,7 @@ void* StartGameB(void* fd)
     const unsigned int playfdA = arg.client_fd[0];
     const unsigned int playfdB = arg.client_fd[1];
     const unsigned int epoll_fd = arg.client_fd[2];
-    char recvbuf[256] = {0};
+    char recvbuf[1024] = {0};
     ssize_t temp = read(playfdB, recvbuf, sizeof(recvbuf)-1);
     if(temp >0 && recvbuf[0] == ENEMY)
     {
@@ -440,18 +454,23 @@ void* StartGameB(void* fd)
         return NULL;
     }
 
-    memset(recvbuf, 0, 256);
+    memset(recvbuf, 0, 1024);
+    char MsgHead[3] = {0};
     for( ; ; ){ 
-        ssize_t n = read(playfdB, recvbuf, 256);
+        ssize_t n = read(playfdB, MsgHead, 3);
+        unsigned short size = 0;
+        char lenbuf[2] = {0};
         if( n < 0  ){
             std::cerr << "read playfdB" << std::endl;
             continue;
         }      
-        std::cout << "read playfdB size #" << n << std::endl;
         bool troop, broadcast;
 
         if( n > 0 ){
-            if(recvbuf[0] == READY){
+            lenbuf[0] = MsgHead[1];
+            lenbuf[1] = MsgHead[2];
+            byteToLength(size, lenbuf);
+            if(MsgHead[0] == READY){
                 std::cout << "B 请求出兵" << std::endl;
                 troop = true;
                 broadcast = false;
@@ -459,7 +478,18 @@ void* StartGameB(void* fd)
                 broadcast = true;
                 troop = false;
             }
-            Broadcast(playfdA, playfdB, troop, broadcast, recvbuf, n);
+            std::cout << "报头read playfdA size #" << size << " n #" << n << std::endl;
+            if( size == 3 ){
+                Broadcast(playfdA, playfdB, troop, broadcast, MsgHead, n);
+            }
+            else if( size > 3 ){
+                n = read(playfdB, recvbuf + 3, size - 3);
+                recvbuf[0] = MsgHead[0];
+                recvbuf[1] = MsgHead[1];
+                recvbuf[2] = MsgHead[2];
+                std::cout << "包体read playfdA size #" << size << " n #" << n << std::endl;
+                Broadcast(playfdA, playfdB, troop, broadcast, recvbuf, n + 3);
+            }
         }
         /*if( n > 0  ){
           pthread_mutex_lock(&mutex);
@@ -493,10 +523,10 @@ void* StartGameB(void* fd)
                 std::cout << "OnlineUser :" << (*(arg.online)).size() << std::endl;
                 //pthread_mutex_unlock(&mutex);
             }else{
-                recvbuf[0] = GAMEOVER;
+                MsgHead[0] = GAMEOVER;
                 broadcast = false;
                 troop = true;
-                Broadcast(playfdA, playfdB, troop, broadcast, recvbuf, n);
+                Broadcast(playfdA, playfdB, troop, broadcast, MsgHead, n);
             }
             //pthread_mutex_unlock(&mutex);
             break;
@@ -519,15 +549,18 @@ void Match(std::list<OnlineUser>&online, std::queue<unsigned int>& MatchQueue, c
     if(MatchQueue.size() >= 2)
     {
         char msg[8] = {0};
+        unsigned short size = 3;
+        char buf[2] = {0};
+        lengthToByte(size, buf);
+        msg[1] = buf[0];
+        msg[2] = buf[1];
         unsigned int playfdA = MatchQueue.front();
         msg[0] = RED;
-        write(playfdA, msg, 1);
-        std::cout << "A为红方" << std::endl;
+        write(playfdA, msg, 3);
         MatchQueue.pop();
         unsigned int playfdB = MatchQueue.front();
         msg[0] = BLUE;
-        write(playfdB, msg, 1);
-        std::cout << "B为蓝方" << std::endl;
+        write(playfdB, msg, 3);
         MatchQueue.pop();
         it = online.begin();
         int count = 0;
