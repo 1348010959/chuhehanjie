@@ -147,10 +147,10 @@ void Login(const UserInfo& user, const unsigned int& client_fd, std::list<Online
             msg[2] = lenbuf[1];
             strcpy(msg+3, serial.c_str());
             //online.insert(std::make_pair(client_fd, tmp));
-            //pthread_mutex_lock(&mutex);
+            pthread_mutex_lock(&mutex_online);
             online.push_back(tmp);
+            pthread_mutex_unlock(&mutex_online);
             std::cout << "online size" << online.size() << std::endl;
-            //pthread_mutex_unlock(&mutex);
             //std::cout << online[client_fd].user_id << std::endl;
         }else{
             printf("It's is failed\n");
@@ -256,6 +256,9 @@ void Broadcast(const unsigned int& playfdA, const unsigned int& playfdB, const b
 {
     //static int count = 0;
     static char IsReady[64] = {0};
+    bool flagA, flagB;
+    flagA = true;
+    flagB = true;
     if(troop){
         IsReady[playfdA%61]++;
         //count++;
@@ -269,13 +272,17 @@ void Broadcast(const unsigned int& playfdA, const unsigned int& playfdB, const b
     }
     if(broadcast){
         if(write(playfdB, buf, n) < 0){
+            flagA = false;
             std::cerr << "write playfdB fail" << std::endl;
         }
         if(write(playfdA, buf, n) < 0)
         {
+            flagB = false;
             std::cerr << "write playfdA fail" << std::endl;
         }
-        std::cout << "write A and B success" << std::endl;
+        if(flagA && flagB){
+            std::cout << "write A and B success" << std::endl;
+        }
     }else{
         std::cout << "write A and B fail" << std::endl;
     }
@@ -289,6 +296,7 @@ void* StartGameA(void* fd)
     const unsigned int playfdB = arg.client_fd[1];
     const unsigned int epoll_fd = arg.client_fd[2];
 
+    char MsgHead[3] = {0};
     char recvbuf[1024] = {0};
     ssize_t temp = read(playfdA, recvbuf, sizeof(recvbuf)-1);
     if(temp >0 && recvbuf[0] == ENEMY)
@@ -300,17 +308,24 @@ void* StartGameA(void* fd)
         for( ; it != (*(arg.online)).end(); ++it    )
         {   
             if( (*it).sock_fd == playfdA ){
-                (*it).Isplaying = false;
                 close(playfdA);
-                //pthread_mutex_lock(&mutex);
                 epoll_ctl(epoll_fd, EPOLL_CTL_DEL, playfdA, NULL);
+                pthread_mutex_lock(&mutex_online);
+                (*it).Isplaying = false;
                 (*(arg.online)).erase(it);
-                //pthread_mutex_unlock(&mutex);
+                pthread_mutex_unlock(&mutex_online);
                 std::cout << " A client quit" << std::endl;                                                                                     
                 std::cout << "OnlineUser :" << (*(arg.online)).size() << std::endl;
                 break;
             }
         }
+        MsgHead[0] = LOST;
+        char lenbuf[2] = {0};
+        unsigned short size = 2;
+        lengthToByte(size, lenbuf);
+        MsgHead[1] = lenbuf[0];
+        MsgHead[2] = lenbuf[1];
+        write(playfdB, MsgHead, 3);
         delete (Args*)fd;
         fd = NULL;
         return NULL;
@@ -319,17 +334,12 @@ void* StartGameA(void* fd)
     //char sendbufA[256] = {0};
     //char recvbufB[256] = {0};
     //char sendbufB[256] = {0};
-    char MsgHead[3] = {0};
     for( ; ;){
         ssize_t n = read(playfdA, MsgHead, 3);
         unsigned short size = 0;
         char lenbuf[2] = {0};
-        if( n < 0 ){
-            std::cerr << "read playfdA" << std::endl;
-            continue;
-        }
         bool troop, broadcast;
-        if(n > 0)
+        if(n > 0 && MsgHead[0] != REDWIN && MsgHead[0] != BLUEWIN && MsgHead[0] != NONEWIN && MsgHead[0] != LOSTACK)
         {
             lenbuf[0] = MsgHead[1];
             lenbuf[1] = MsgHead[2];
@@ -367,30 +377,46 @@ void* StartGameA(void* fd)
           pthread_mutex_unlock(&mutex);
           std::cout << "write A and B success" << std::endl;
           }*/
-        if(n == 0 || recvbuf[0] == REDWIN || recvbuf[0] == BLUEWIN || recvbuf[0] == NONEWIN){
-            //pthread_mutex_lock(&mutex);
+        if(n == 0 || n < 0 || MsgHead[0] == REDWIN || MsgHead[0] == BLUEWIN || MsgHead[0] == NONEWIN || MsgHead[0] == LOSTACK){
             std::list<OnlineUser>::iterator it = (*(arg.online)).begin();
+            bool flag = false;
             for( ; it != (*(arg.online)).end(); ++it   )
             {
                 if( (*it).sock_fd == playfdA   ){
-                    (*it).Isplaying = false;                                                                    
+                    flag = true;
                     break;
                 }                    
             }                        
-            if(n == 0){
+            if((n == 0 || n < 0) && flag){
+                if ( n < 0 ){
+                    std::cerr << "read playfdA err" << std::endl;
+                }
                 close(playfdA);
                 epoll_ctl(epoll_fd, EPOLL_CTL_DEL, playfdA, NULL);
+                pthread_mutex_lock(&mutex_online);              
+                (*it).Isplaying = false;                                                                    
                 (*(arg.online)).erase(it);
+                pthread_mutex_unlock(&mutex_online);              
                 std::cout << "A client quit" << std::endl;                                                                                     
                 std::cout << "OnlineUser :" << (*(arg.online)).size() << std::endl;
-                //pthread_mutex_unlock(&mutex);              
-            }else{
+                std::cout << "打印LOST" << std::endl; 
+                MsgHead[0] = LOST;
+                write(playfdB, MsgHead, 3);
+            }else if(recvbuf[0] == LOSTACK && flag){
+                pthread_mutex_lock(&mutex_online);              
+                (*it).Isplaying = false;                                                                    
+                pthread_mutex_unlock(&mutex_online);              
+                break;
+            }else if(flag){
+                pthread_mutex_lock(&mutex_online);              
+                (*it).Isplaying = false;                                                                    
+                pthread_mutex_unlock(&mutex_online);              
+                printf("MsgHead: %c\n",MsgHead[0]);
                 MsgHead[0] = GAMEOVER;
                 broadcast = true;
-                troop = true;
+                troop = false;
                 Broadcast(playfdA, playfdB, troop, broadcast, MsgHead, n);
             }
-            //pthread_mutex_unlock(&mutex);
             break;
         }
     }
@@ -423,12 +449,14 @@ void* StartGameA(void* fd)
     return NULL;
 }
 
+
 void* StartGameB(void* fd)
 {
     Args arg = *(Args*)fd;
     const unsigned int playfdA = arg.client_fd[0];
     const unsigned int playfdB = arg.client_fd[1];
     const unsigned int epoll_fd = arg.client_fd[2];
+    char MsgHead[3] = {0};
     char recvbuf[1024] = {0};
     ssize_t temp = read(playfdB, recvbuf, sizeof(recvbuf)-1);
     if(temp >0 && recvbuf[0] == ENEMY)
@@ -440,33 +468,38 @@ void* StartGameB(void* fd)
         for( ; it != (*(arg.online)).end(); ++it   )
         {
             if( (*it).sock_fd == playfdB   ){
-                (*it).Isplaying = false;
                 close(playfdB);
-                //pthread_mutex_lock(&mutex);
-                epoll_ctl(epoll_fd, EPOLL_CTL_DEL, playfdB, NULL);
+                pthread_mutex_lock(&mutex_online);
+                (*it).Isplaying = false;
                 (*(arg.online)).erase(it);
-                //pthread_mutex_unlock(&mutex);
+                pthread_mutex_unlock(&mutex_online);
+                epoll_ctl(epoll_fd, EPOLL_CTL_DEL, playfdB, NULL);
                 std::cout << "B client quit" << std::endl;                                                                                     
                 std::cout << "OnlineUser :" << (*(arg.online)).size() << std::endl;
                 break;
             }
         }
+        MsgHead[0] = LOST;
+        char lenbuf[2] = {0};
+        unsigned short size = 2;
+        lengthToByte(size, lenbuf);
+        MsgHead[1] = lenbuf[0];
+        MsgHead[2] = lenbuf[1];
+        write(playfdA, MsgHead, 3);
+        delete (Args*)fd;
+        fd = NULL;
         return NULL;
     }
 
     memset(recvbuf, 0, 1024);
-    char MsgHead[3] = {0};
     for( ; ; ){ 
         ssize_t n = read(playfdB, MsgHead, 3);
         unsigned short size = 0;
         char lenbuf[2] = {0};
-        if( n < 0  ){
-            std::cerr << "read playfdB" << std::endl;
-            continue;
-        }      
         bool troop, broadcast;
 
-        if( n > 0 ){
+        if(n > 0 && MsgHead[0] != REDWIN && MsgHead[0] != BLUEWIN && MsgHead[0] != NONEWIN && MsgHead[0] != LOSTACK)
+        {
             lenbuf[0] = MsgHead[1];
             lenbuf[1] = MsgHead[2];
             byteToLength(size, lenbuf);
@@ -504,34 +537,52 @@ void* StartGameB(void* fd)
           pthread_mutex_unlock(&mutex);
           std::cout << "write A and B success" << std::endl;
           }*/      
-        if(n == 0 || recvbuf[0] == REDWIN || recvbuf[0] == BLUEWIN || recvbuf[0] == NONEWIN){
+        if(n == 0 || n < 0 || MsgHead[0] == REDWIN || MsgHead[0] == BLUEWIN || MsgHead[0] == NONEWIN || MsgHead[0] == LOSTACK){
             //pthread_mutex_lock(&mutex);
             std::list<OnlineUser>::iterator it = (*(arg.online)).begin();
+            bool flag = false;
             for( ; it != (*(arg.online)).end(); ++it  )
             {
                 if( (*it).sock_fd == playfdB  ){
-                    (*it).Isplaying = false;
-                    std::cout << "跳出在线列表" << std::endl;
+                    flag = true;
                     break;
                 }
             }
-            if(n == 0){
+            if((n == 0 || n < 0) && flag){
+                if ( n < 0 ){
+                    std::cerr << "read playfdA err" << std::endl;
+                }
                 close(playfdB);
                 epoll_ctl(epoll_fd, EPOLL_CTL_DEL, playfdB, NULL);
+                pthread_mutex_lock(&mutex_online);
+                (*it).Isplaying = false;
                 (*(arg.online)).erase(it);
+                pthread_mutex_unlock(&mutex_online);
+                std::cout << "打印LOST" << std::endl; 
+                MsgHead[0] = LOST;
+                write(playfdA, MsgHead, 3);
                 std::cout << "B client quit" << std::endl;
                 std::cout << "OnlineUser :" << (*(arg.online)).size() << std::endl;
-                //pthread_mutex_unlock(&mutex);
-            }else{
+            }else if(recvbuf[0] == LOSTACK && flag){
+                pthread_mutex_lock(&mutex_online);
+                (*it).Isplaying = false;
+                pthread_mutex_unlock(&mutex_online);
+                break;
+            }else if(flag){
+                pthread_mutex_lock(&mutex_online);
+                (*it).Isplaying = false;
+                pthread_mutex_unlock(&mutex_online);
+                printf("MsgHead: %c\n",MsgHead[0]);
                 MsgHead[0] = GAMEOVER;
-                broadcast = false;
-                troop = true;
+                broadcast = true;
+                troop = false;
                 Broadcast(playfdA, playfdB, troop, broadcast, MsgHead, n);
             }
-            //pthread_mutex_unlock(&mutex);
             break;
         }
     }
+    delete (Args*)fd;
+    fd = NULL;
     return NULL;
 }
 
@@ -578,13 +629,18 @@ void Match(std::list<OnlineUser>&online, std::queue<unsigned int>& MatchQueue, c
                 break;
         }
         //unsigned int fd[2] = {playfdA, playfdB};
-        Args* arg = new Args;
-        arg->client_fd[0] = playfdA;
-        arg->client_fd[1] = playfdB;
-        arg->client_fd[2] = epoll_fd;
-        arg->online = &online;
-        thread_add_task(pool, StartGameA, arg);
-        thread_add_task(pool, StartGameB, arg);
+        Args* arg1 = new Args;
+        Args* arg2 = new Args;
+        arg1->client_fd[0] = playfdA;
+        arg1->client_fd[1] = playfdB;
+        arg1->client_fd[2] = epoll_fd;
+        arg1->online = &online;
+        arg2->client_fd[0] = playfdA;
+        arg2->client_fd[1] = playfdB;
+        arg2->client_fd[2] = epoll_fd;
+        arg2->online = &online;
+        thread_add_task(pool, StartGameA, arg1);
+        thread_add_task(pool, StartGameB, arg2);
     }
     //pthread_mutex_unlock(&mutex);
 

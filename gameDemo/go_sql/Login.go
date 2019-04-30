@@ -11,7 +11,7 @@ import (
 
 
 func main() {
-    db, err := sql.Open("mysql", "zym:Zhao123456...@tcp(127.0.0.1:3306)/TestGo?charset=utf8")
+    db, err := sql.Open("mysql", "zym:Zhao123456@tcp(39.105.149.213:3306)/TestGo?charset=utf8")
     checkErr(err)
 
     id := os.Getenv("USERID")

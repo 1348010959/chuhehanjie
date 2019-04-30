@@ -84,14 +84,14 @@ void ProcessRequest(const unsigned int& connect_fd, const unsigned int& epoll_fd
         /*std::map<unsigned int, OnlineInfo>::iterator it;
           it = online.find(connect_fd);
           online.erase(it);*/
-        if(flag)
-        {
-            //pthread_mutex_lock(&mutex);
-            online.erase(it);
-            //pthread_mutex_unlock(&mutex);
-        }
         close(connect_fd);
         epoll_ctl(epoll_fd, EPOLL_CTL_DEL, connect_fd, NULL);
+        if(flag)
+        {
+            pthread_mutex_lock(&mutex_online);
+            online.erase(it);
+            pthread_mutex_unlock(&mutex_online);
+        }
         std::cout << "online user size:" << online.size() << std::endl;
         std::cout << "client quit" << std::endl;
         return;
@@ -156,8 +156,7 @@ int main(int argc, char* argv[])
     std::queue<unsigned int> MatchQueue;
     threadpool_t pool;
 
-    pthread_mutex_init(&mutex, NULL);
-    pthread_cond_init(&cond, NULL);
+    pthread_mutex_init(&mutex_online, NULL);
     threadpool_init(&pool, 10);
 
     int listen_sock = startup(atoi(argv[1]));
@@ -207,8 +206,7 @@ int main(int argc, char* argv[])
         }
     }
     threadpool_destroy(&pool);
-    pthread_cond_destroy(&cond);
-    pthread_mutex_destroy(&mutex);
+    pthread_mutex_destroy(&mutex_online);
     google::protobuf::ShutdownProtobufLibrary();
     return 0;    
 }

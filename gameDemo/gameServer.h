@@ -42,6 +42,9 @@ enum RequestType{
     RED = 98,       //红方阵营
     BLUE = 99,      //蓝方阵营
 
+    LOST = 60,     //异常离线
+    LOSTACK = 61,  //收到回复    
+
 
     READY = 50,  //出兵消息
     NEWROUND = 51,
@@ -59,8 +62,7 @@ struct OnlineInfo{
     bool Isplaying;
 };
 
-pthread_cond_t cond;
-pthread_mutex_t mutex;
+pthread_mutex_t mutex_online;
 
 struct OnlineUser{
     std::string user_id;
