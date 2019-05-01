@@ -519,16 +519,30 @@ void* StartGameB(void* fd)
     return NULL;
 }
 
+int SocketConnected(unsigned int sock){
+   struct tcp_info info;
+   socklen_t len = sizeof(info);
+   getsockopt(sock, IPPROTO_TCP, TCP_INFO, &info, (socklen_t*)&len);
+   if(info.tcpi_state == TCP_ESTABLISHED)
+   {
+        return 0;
+   }else{
+        std::cout << "socket disconnected" << std::endl;
+        return -1;
+   }
+}
 
-void Match(std::list<OnlineUser>&online, std::queue<unsigned int>& MatchQueue, const unsigned int& client_fd, threadpool_t* pool, const unsigned int& epoll_fd)
+void Match(std::list<OnlineUser>&online, std::list<unsigned int>& MatchQueue, const unsigned int& client_fd, threadpool_t* pool, const unsigned int& epoll_fd)
 {
     std::list<OnlineUser>::iterator it = online.begin();
     for( ; it != online.end(); ++it )
     {
         if( (*it).sock_fd == client_fd ){
-            MatchQueue.push(it->sock_fd);
+            MatchQueue.push_back(it->sock_fd);
+            break;
         }
     }
+    it = online.begin();
     if(MatchQueue.size() >= 2)
     {
         char msg[8] = {0};
@@ -538,13 +552,22 @@ void Match(std::list<OnlineUser>&online, std::queue<unsigned int>& MatchQueue, c
         msg[1] = buf[0];
         msg[2] = buf[1];
         unsigned int playfdA = MatchQueue.front();
+        ++it;
+        unsigned int playfdB = it->sock_fd;
+        if(SocketConnected(playfdA) < 0){
+            MatchQueue.pop_front();
+            return;
+        }
+        if(SocketConnected(playfdB) < 0){
+            online.erase(it);
+            return;
+        }
+        MatchQueue.pop_front();
+        MatchQueue.pop_front();
         msg[0] = RED;
         write(playfdA, msg, 3);
-        MatchQueue.pop();
-        unsigned int playfdB = MatchQueue.front();
         msg[0] = BLUE;
         write(playfdB, msg, 3);
-        MatchQueue.pop();
         it = online.begin();
         int count = 0;
         for( ; it != online.end(); ++it )

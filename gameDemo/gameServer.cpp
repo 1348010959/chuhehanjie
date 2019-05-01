@@ -52,18 +52,26 @@ void ProcessConnect(const int& listen_sock, int& epoll_fd)
     }
 }
 
-void ProcessRequest(const unsigned int& connect_fd, const unsigned int& epoll_fd, std::list<OnlineUser>& online,std::queue<unsigned int> &MatchQueue, threadpool_t* pool)
+void ProcessRequest(const unsigned int& connect_fd, const unsigned int& epoll_fd, std::list<OnlineUser>& online,std::list<unsigned int> &MatchQueue, threadpool_t* pool)
 {
     /*if(online[connect_fd].Isplaying)
       return;*/
     std::list<OnlineUser>::iterator it = online.begin();
-    int flag = false;
+
+    bool flag = false;
     if(online.size() > 0)
     {
         if(online.size() == 1 && it->sock_fd == connect_fd)
             flag = true;
         while(it != online.end())
         {
+            /*if((SocketConnected(it->sock_fd) < 0) && (!it->Isplaying)){
+                close(it->sock_fd);
+                epoll_ctl(epoll_fd, EPOLL_CTL_DEL, connect_fd, NULL);
+                pthread_mutex_lock(&mutex_online);
+                online.erase(it);
+                pthread_mutex_unlock(&mutex_online);
+            }*/
             if((*it).sock_fd == connect_fd)
             {
                 flag = true;
@@ -77,13 +85,23 @@ void ProcessRequest(const unsigned int& connect_fd, const unsigned int& epoll_fd
     char buf[1024] = {0};
     ssize_t read_size = read(connect_fd, buf,sizeof(buf)-1);
 
-    if(read_size < 0){
-        std::cerr << "read err" << std::endl;
-        return;
-    }else if(read_size == 0){
-        /*std::map<unsigned int, OnlineInfo>::iterator it;
-          it = online.find(connect_fd);
-          online.erase(it);*/
+    if(read_size <= 0){
+        if(read_size < 0){
+            std::cerr << "read err" << std::endl;
+        }
+
+        if(MatchQueue.size() > 0){
+            std::list<unsigned int>::iterator itQueue = MatchQueue.begin();
+            while(itQueue != MatchQueue.end()){
+                if(*itQueue == it->sock_fd ){
+                    std::cout << "erase MatchQueue" << std::endl;
+                    MatchQueue.erase(itQueue);
+                    break;
+                }
+            ++itQueue;
+            }
+        }
+
         close(connect_fd);
         epoll_ctl(epoll_fd, EPOLL_CTL_DEL, connect_fd, NULL);
         if(flag)
@@ -153,7 +171,7 @@ int main(int argc, char* argv[])
     }
     std::list<OnlineUser> online;
     //std::map<unsigned int, OnlineInfo> online;
-    std::queue<unsigned int> MatchQueue;
+    std::list<unsigned int> MatchQueue;
     threadpool_t pool;
 
     pthread_mutex_init(&mutex_online, NULL);
@@ -204,6 +222,7 @@ int main(int argc, char* argv[])
                 ProcessRequest(events[i].data.fd, epoll_fd, online, MatchQueue, &pool);
             }
         }
+
     }
     threadpool_destroy(&pool);
     pthread_mutex_destroy(&mutex_online);

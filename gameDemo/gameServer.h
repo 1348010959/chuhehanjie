@@ -6,7 +6,15 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <sys/types.h>
+#include <linux/types.h>
+#include <asm/byteorder.h>
+//#include <linux/config.h>
+//#include <linux/skbuff.h>
+//#include <linux/ip.h>
+//#include <net/sock.h>
+//#include <linux/tcp.h>
 #include <arpa/inet.h>
+#include <netinet/tcp.h>
 #include <ctype.h>
 #include <iostream>
 #include <cstring>
