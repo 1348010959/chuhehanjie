@@ -535,14 +535,15 @@ int SocketConnected(unsigned int sock){
 void Match(std::list<OnlineUser>&online, std::list<unsigned int>& MatchQueue, const unsigned int& client_fd, threadpool_t* pool, const unsigned int& epoll_fd)
 {
     std::list<OnlineUser>::iterator it = online.begin();
-    for( ; it != online.end(); ++it )
-    {
-        if( (*it).sock_fd == client_fd ){
-            MatchQueue.push_back(it->sock_fd);
-            break;
-        }
-    }
-    it = online.begin();
+    std::list<unsigned int>::iterator Mit = MatchQueue.begin();
+    //for( ; it != online.end(); ++it )
+    //{
+    //    if( (*it).sock_fd == client_fd ){
+    MatchQueue.push_back(client_fd);//(it->sock_fd);
+    //        break;
+    //    }
+    //}
+    //it = online.begin();
     if(MatchQueue.size() >= 2)
     {
         char msg[8] = {0};
@@ -551,15 +552,16 @@ void Match(std::list<OnlineUser>&online, std::list<unsigned int>& MatchQueue, co
         lengthToByte(size, buf);
         msg[1] = buf[0];
         msg[2] = buf[1];
-        unsigned int playfdA = MatchQueue.front();
-        ++it;
-        unsigned int playfdB = it->sock_fd;
+        unsigned int playfdA = *Mit;
+        ++Mit;
+        unsigned int playfdB = *Mit;
         if(SocketConnected(playfdA) < 0){
             MatchQueue.pop_front();
             return;
         }
         if(SocketConnected(playfdB) < 0){
-            online.erase(it);
+            Mit = find(MatchQueue.begin(), MatchQueue.end(), playfdB);
+            MatchQueue.erase(Mit);
             return;
         }
         MatchQueue.pop_front();
@@ -568,17 +570,18 @@ void Match(std::list<OnlineUser>&online, std::list<unsigned int>& MatchQueue, co
         write(playfdA, msg, 3);
         msg[0] = BLUE;
         write(playfdB, msg, 3);
-        it = online.begin();
         int count = 0;
         for( ; it != online.end(); ++it )
         {
             if( (*it).sock_fd == playfdA  ){
                 it->Isplaying = true;
                 count++;
+                continue;
             }
-            if( (*it).sock_fd == playfdB ){
+            else if( (*it).sock_fd == playfdB ){
                 it->Isplaying = true;
                 count++;
+                continue;
             }
             if(count == 2)
                 break;

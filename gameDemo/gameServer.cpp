@@ -98,7 +98,7 @@ void ProcessRequest(const unsigned int& connect_fd, const unsigned int& epoll_fd
                     MatchQueue.erase(itQueue);
                     break;
                 }
-            ++itQueue;
+                ++itQueue;
             }
         }
 
